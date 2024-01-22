@@ -14,17 +14,22 @@ int main (void)
 {
 	List<int> list1;
 	cout << "list1 = " << list1 << endl;
-	
+	list1.prepend(-10);
+	cout << "list1 = " << list1 << endl;
+
 	//Adding elements to the list1
 	for ( int i = 1; i <= 10; i++ )
 		list1.append(i);
 
 	cout << "list1 = " << list1 << endl;
+	cout << "\nlist1.prepend(1000);\n";
+	list1.prepend(1000);
+	cout << "list1 = " << list1 << endl;
 
 	//Using copy constructor
 	List<int> list2(list1);
 	cout << "list2 = " << list2 << endl;
-	
+	cout << "list2[10] = " << list2[10] << endl;
 	cout << "\nlist1.insert(50,10);\nlist1.insert(0,0)\nlist1.insert(50,-12);\nlist1.insert(50,12);\nlist2[2] = 100;\n";
 
 	list2[2] = 100;
@@ -66,12 +71,24 @@ int main (void)
 	else
 		cout << "list3 is not empty\n";
 
+	cout << "list1.search(-10), index:" << list1.search(-10) << endl;
+	cout << "list2.search(10), index:" << list2.search(10) << endl;	
+	cout << "list3.search(1000), index:" << list3.search(1000) << endl;	
+	cout << "list3.search(-1000), index:" << list3.search(-1000) << endl;
+	cout << "list2.search(9000), index:" << list2.search(9000) << endl;		
 
-	// // cout << "list3 size = " << list3.length() << endl;
-	// // if ( list3.empty() )
-	// // 	cout << "list3 empty\n";
-	// // else
-	// // 	cout << "list3 not empty\n";
+	cout << "list1 length= " << list1.length() << endl;
+
+	list1.remove(1);
+	list1.remove(2);
+	list1.remove(3);
+	list1.remove(4);
+	cout << "list1 length= " << list1.length() << endl;
+	cout << "list1 = " << list1 << endl;
+	if ( list1.empty() )
+		cout << "list1 is empty\n";
+	else
+		cout << "list1 is not empty\n";
 	return 0;
 }
 

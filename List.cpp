@@ -107,8 +107,23 @@ List<T>::~List( void ){
 //=================================================
 template <class T>
 void List<T>::prepend( const T &item	) {
+	// Creating a node
+	Node* newNodeptr = new Node;
+    newNodeptr->item = item;
+    newNodeptr->next = NULL; 
 
+	// If the list is empty
+    if (head == NULL){
+        head = newNodeptr; 
+		tail = head;       
+    }
+    else{
+      	Node* temp;
+		temp = head;
 
+		head = newNodeptr; 
+		head->next = temp; 
+    }
 
 }
 
@@ -224,6 +239,17 @@ void List<T>::remove( int index ) {
 //=================================================
 template <class T>
 int List<T>::search( const T &item ) const{
+	Node* temp;
+	temp = head;
+	int counter=0;
+
+	while( temp != NULL){
+		if (temp->item == item){
+			return counter;
+		}
+		temp = temp->next;
+		counter++;
+	}
 
 	return -1;
 
