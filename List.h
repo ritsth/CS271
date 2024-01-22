@@ -1,8 +1,8 @@
 //========================================================
-// K M I Asif
-// April 2023
+// Ritika, Max, Allyson
+// Jan 2024
 // List.h
-// This file contains the List class declaration.  
+// This file contains the Doubly Linked List class declaration.  
 //========================================================
 
 #include <iostream>
@@ -28,25 +28,34 @@ private:
 		Node* next;
 	};
 	
-	Node* head;		// the pointer for the linked list
+	Node* head;		// Head pointer of the linked list
 
 	// ADDED PRIVATE VARS
-	Node* tail;			// the ponter to the last node in the linked list
+	int size; 			// Length of the linked list
+	Node* tail;			// the pointer to the last node 
 	Node* current;		//pointer to thr current node 
 	
 public:
 			List		( void );
 			List		( const List<T> &mylist );
 		   ~List		( void );
+
+//
 List<T>		operator=	( const List<T> &mylist );
 string		to_string	( void ) const;	
+
+void		prepend		( const T &item	);
 void		append		( const T &item	);
 T &			operator[]	( int index );
 void		insert		( const T &item, int index );
 void		remove		( int index );
-List<T>		operator+	( const List<T> &mylist ) const;
+List<T>		concat	( const List<T> &mylist ) const;
+
+
 int			length		( void ) const;
-bool		isEmpty		( void ) const;
+bool		empty		( void ) const;
+
+//not
 void		clear		( void );
 
 friend ostream & operator<< ( ostream &os, List<T> &mylist )

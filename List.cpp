@@ -94,57 +94,23 @@ List<T>::~List( void ){
 }
 
 //=================================================
-// = operator overloading
-// PARAMETERS: mylist
-// paramas type: constant reference params of List object
-//=================================================
-template <class T>
-List<T> List<T>::operator=( const List<T> &mylist ){
-	// Pointer to point to the the head node of the mylist which is to be copied
-	Node* temp;
-	temp = mylist.head;
-
-	// Looping throught mylist and appending each item to this list 
-	while( temp != NULL){
-		//appending to the current
-		append(temp->item);
-		temp = temp->next;
-	}
-
-//the keyword "this" is a pointer that refers to the current object of the class.
-	// returning the current list of the List class
-	return *this;
-}
-
-//=================================================
-// to_string
-// PARAMETERS: none
-// RETURN VALUE: linked list as string
-// a string containing all the items in the list.
-//=================================================
-template <class T>
-string List<T>::to_string( void ) const {
-	stringstream stream;
-	current = head; 
-
-	if (length() == 0){
-		stream << 0;
-	}
-	else{
-		while (current != NULL)
-		{
-			stream << current->item << " ";
-			current = current->next;
-		}
-	}
-	return stream.str();
-}
-
-//=================================================
-// append
+// prepend 
 // PARAMETERS: item
 // paramas type: constant reference params of template type variable
-// Adds the the passed item at the end of the list
+// This method allows you to add an item to the front of the list.
+//=================================================
+template <class T>
+void List<T>::prepend( const T &item	) {
+
+
+
+}
+
+//=================================================
+// append This method allows you to add an item to the front of the list.
+// PARAMETERS: item
+// paramas type: constant reference params of template type variable
+// This method allows you to add an item to the end of the list.
 //=================================================
 template <class T>
 void List<T>::append( const T &item	) {
@@ -166,33 +132,13 @@ void List<T>::append( const T &item	) {
     tail = newNodeptr;
 }
 
-//=================================================
-// [] operator overloading
-// PARAMETERS: index
-// paramas type: integer
-// RETURN VALUE: returns the item in the linked list at the index
-//=================================================
-template <class T>
-T& List<T>::operator[]	( int index ) {
-	int counter = 0;
-	current = head;
-	
-	// Transversing throught the list until the node with index is found
-	while(current != NULL && counter < index){
-		current = current->next;	
-		counter ++;
-
-	}
-
-	// Returning the item in the node with the index
-	return current->item;
-}
 
 //=================================================
 // insert
 // PARAMETERS: item and index
 // paramas type: constant reference params of template type variable and integer 
-// Inserts the item in the linked list in the given index
+// This method allows you to add an item the specified location (indices start at position 0). 
+// Else throw out of range exception.
 //=================================================
 template <class T>
 void List<T>::insert( const T &item, int index ) {
@@ -257,33 +203,9 @@ void List<T>::remove( int index ) {
 }
 
 //=================================================
-// + operator overloading
-// PARAMETERS: mylist
-// paramas type: constant reference params of List object
-// RETURN VALUE: returns a List class object
-// Adds the two Linked list / List class objects
-//=================================================
-template <class T>
-List<T> List<T>::operator+( const List<T> &mylist ) const {
-	// Creating list obj using copy constructor and passing this class list
-	List<T> list(*this);
-
-	Node* temp;
-	temp = mylist.head;
-
-	while( temp != NULL){
-		list.append(temp->item);
-		temp = temp->next;
-	}
-
-	return list;
-
-}
-
-//=================================================
 // length
 // PARAMETERS: None
-// RETURN VALUE: return the length of the linked list as a integer
+// This method returns the number of items in the list.
 //=================================================
 template <class T>
 int List<T>::length( void ) const {
@@ -301,14 +223,94 @@ int List<T>::length( void ) const {
 }
 
 //=================================================
-// isEmpty
+// empty
 // PARAMETERS: None
 // RETURN VALUE: returns a bool value 
-// Checks if the list has item or not
+// This method returns true if the list is empty, false otherwise.
 //=================================================
 template <class T>
-bool List<T>::isEmpty	( void ) const {
+bool List<T>::empty	( void ) const {
 	return length() == 0;
+}
+
+//=================================================
+// concat
+// PARAMETERS: mylist
+// paramas type: constant reference params of List object
+// RETURN VALUE: returns a List class object
+// This method concatenates two existing lists to return the newly created list.
+//=================================================
+template <class T>
+List<T> List<T>::concat( const List<T> &mylist ) const {
+	// Creating list obj using copy constructor and passing this class list
+	List<T> list(*this);
+
+	Node* temp;
+	temp = mylist.head;
+
+	while( temp != NULL){
+		list.append(temp->item);
+		temp = temp->next;
+	}
+
+	return list;
+
+}
+
+
+
+
+
+
+
+//Extras
+
+
+//=================================================
+// = operator overloading
+// PARAMETERS: mylist
+// paramas type: constant reference params of List object
+//=================================================
+template <class T>
+List<T> List<T>::operator=( const List<T> &mylist ){
+	// Pointer to point to the the head node of the mylist which is to be copied
+	Node* temp;
+	temp = mylist.head;
+
+	// Looping throught mylist and appending each item to this list 
+	while( temp != NULL){
+		//appending to the current
+		append(temp->item);
+		temp = temp->next;
+	}
+
+//the keyword "this" is a pointer that refers to the current object of the class.
+	// returning the current list of the List class
+	return *this;
+}
+
+//=================================================
+// to_string
+// PARAMETERS: none
+// RETURN VALUE: linked list as string
+// a string containing all the items in the list.
+//=================================================
+template <class T>
+string List<T>::to_string( void ) const {
+	stringstream stream;
+	current = head; 
+
+	if (length() == 0){
+		stream << 0;
+	}
+	else{
+		while (current != NULL)
+		{
+			stream << current->item << " ";
+			current = current->next;
+		}
+	}
+	return stream.str();
 }
 
 //=================================================

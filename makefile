@@ -1,7 +1,7 @@
 driver: listdriver.o
 	g++ -o driver listdriver.o 
 	
-listdriver.o: listdriver.cpp List.h List.cpp
-	g++ -c listdriver.cpp 
+listdriver.o: main.cpp List.h List.cpp
+	g++ -c main.cpp 
 	
 
