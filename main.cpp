@@ -1,7 +1,7 @@
 //========================================================
 // Ritika
 // Jan 2023
-// listdriver.cpp
+// main.cpp
 // This file tests the List class.
 //========================================================
 
@@ -34,18 +34,18 @@ int main (void)
 	cout << "\nlist3 new empty\n";
 	List<int> list3;
 	cout << "list3 size = " << list3.length() << endl;
-	if ( list3.isEmpty() )
+	if ( list3.empty() )
 		cout << "list3 empty\n";
 	else
 		cout << "list3 not empty\n";
 
 	cout << "\nlist3 = list1+list2\n";
-	list3 = list1 + list2;
+	list3 = list1.concat(list2) ;
 	cout << "list3 = " << list3 << endl;
 	
 	
 	cout << "list3 size = " << list3.length() << endl;
-	if ( list3.isEmpty() )
+	if ( list3.empty() )
 		cout << "list3 empty\n";
 	else
 		cout << "list3 not empty\n";
@@ -54,7 +54,7 @@ int main (void)
 	list3.clear();
 
 	cout << "list3 size = " << list3.length() << endl;
-	if ( list3.isEmpty() )
+	if ( list3.empty() )
 		cout << "list3 empty\n";
 	else
 		cout << "list3 not empty\n";

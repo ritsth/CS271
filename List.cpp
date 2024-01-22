@@ -210,7 +210,7 @@ void List<T>::remove( int index ) {
 template <class T>
 int List<T>::search( const T &item ) const{
 
-
+	return -1;
 
 }
 
@@ -269,6 +269,27 @@ List<T> List<T>::concat( const List<T> &mylist ) const {
 
 }
 
+//=================================================
+// [] operator overloading
+// PARAMETERS: index
+// paramas type: integer
+// RETURN VALUE: returns the item in the linked list at the index
+//=================================================
+template <class T>
+T& List<T>::operator[]	( int index ) {
+	int counter = 0;
+	current = head;
+	
+	// Transversing throught the list until the node with index is found
+	while(current != NULL && counter < index){
+		current = current->next;	
+		counter ++;
+
+	}
+
+	// Returning the item in the node with the index
+	return current->item;
+}
 
 
 
