@@ -39,24 +39,21 @@ public:
 			List		( void );
 			List		( const List<T> &mylist );
 		   ~List		( void );
-
-//
-List<T>		operator=	( const List<T> &mylist );
-string		to_string	( void ) const;	
-
 void		prepend		( const T &item	);
 void		append		( const T &item	);
 T &			operator[]	( int index );
 void		insert		( const T &item, int index );
 void		remove		( int index );
 List<T>		concat	( const List<T> &mylist ) const;
-
-
+int 		search( const T &item ) const;
 int			length		( void ) const;
 bool		empty		( void ) const;
 
 //not
 void		clear		( void );
+List<T>		operator=	( const List<T> &mylist );
+string		to_string	( void ) const;	
+
 
 friend ostream & operator<< ( ostream &os, List<T> &mylist )
 {

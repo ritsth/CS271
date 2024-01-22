@@ -203,6 +203,18 @@ void List<T>::remove( int index ) {
 }
 
 //=================================================
+// search
+// PARAMETERS: item 
+// This method finds the first instance of a specified item in the list.
+//=================================================
+template <class T>
+int List<T>::search( const T &item ) const{
+
+
+
+}
+
+//=================================================
 // length
 // PARAMETERS: None
 // This method returns the number of items in the list.
