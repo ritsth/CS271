@@ -48,12 +48,7 @@ List<T>		concat	( const List<T> &mylist ) const;
 int 		search( const T &item ) const;
 int			length		( void ) const;
 bool		empty		( void ) const;
-
-//not
-void		clear		( void );
 List<T>		operator=	( const List<T> &mylist );
-string		to_string	( void ) const;	
-
 
 friend ostream & operator<< ( ostream &os, List<T> &mylist )
 {
@@ -69,7 +64,6 @@ friend ostream & operator<< ( ostream &os, List<T> &mylist )
 		
 	return os;	
 }
-
 
 };
 

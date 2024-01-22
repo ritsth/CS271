@@ -1,3 +1,9 @@
+//========================================================
+// Ritika, Max, Allyson
+// Jan 2024
+// List.cpp
+// This file contains all the method implementation in List class
+//========================================================
 #include "List.h"
 #include <iostream>
 #include <string>
@@ -142,6 +148,11 @@ void List<T>::append( const T &item	) {
 //=================================================
 template <class T>
 void List<T>::insert( const T &item, int index ) {
+	//index less than 0 or exceed length of the list
+	if (index < 0 || index > length()){
+		throw out_of_range("List<T>::insert( const T &item, int index ) : index is out of range");
+	}
+
 	Node* prev;  // Pointer to the previous item 
 	int counter=0;
 
@@ -187,6 +198,10 @@ void List<T>::insert( const T &item, int index ) {
 //=================================================
 template <class T>
 void List<T>::remove( int index ) {
+	//index less than 0 or exceed length of the list
+	if (index < 0 || index > length()){
+		throw out_of_range("List<T>::insert( const T &item, int index ) : index is out of range");
+	}
 	Node* prev;  // Pointer to the previous item 
 	int counter = 0;
 	current = head;
@@ -277,6 +292,10 @@ List<T> List<T>::concat( const List<T> &mylist ) const {
 //=================================================
 template <class T>
 T& List<T>::operator[]	( int index ) {
+	//index less than 0 or exceed legth of the list
+	if (index < 0 || index > length()){
+		throw out_of_range("List<T>::insert( const T &item, int index ) : index is out of range");
+	}
 	int counter = 0;
 	current = head;
 	
@@ -290,14 +309,6 @@ T& List<T>::operator[]	( int index ) {
 	// Returning the item in the node with the index
 	return current->item;
 }
-
-
-
-
-
-
-//Extras
-
 
 //=================================================
 // = operator overloading
@@ -317,42 +328,12 @@ List<T> List<T>::operator=( const List<T> &mylist ){
 		temp = temp->next;
 	}
 
-//the keyword "this" is a pointer that refers to the current object of the class.
+	//the keyword "this" is a pointer that refers to the current object of the class.
 	// returning the current list of the List class
 	return *this;
 }
 
-//=================================================
-// to_string
-// PARAMETERS: none
-// RETURN VALUE: linked list as string
-// a string containing all the items in the list.
-//=================================================
-template <class T>
-string List<T>::to_string( void ) const {
-	stringstream stream;
-	current = head; 
 
-	if (length() == 0){
-		stream << 0;
-	}
-	else{
-		while (current != NULL)
-		{
-			stream << current->item << " ";
-			current = current->next;
-		}
-	}
-	return stream.str();
-}
 
-//=================================================
-// clear
-// PARAMETERS: None
-// Removes all the items from the linked list
-//=================================================
-template <class T>
-void List<T>::clear( void ) {
-	// pointing the head pointer to null 
-	head = NULL;
-}
+
+
