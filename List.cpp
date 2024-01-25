@@ -16,25 +16,32 @@ using namespace std;
 //=================================================
 // default constructor
 // PARAMETERS: none
-// Creates a List object/ List with no elements
+// Creates a List object/ List with no elements (all
+// pointers are NULL, they point to nothing)
 //=================================================
 template <class T>
 List<T>::List(void){
     head = NULL;
 	tail = NULL;
-	current = NULL;
+	current = NULL; 
+	size = 0;
 }
 
 //=================================================
 // parameterized/copy constructor
-// PARAMETERS: mylist
-// paramas type: constant reference params of List object 
+// PARAMETERS: 
+// &mylist: a reference parameter to a pre-existing 
+// linked list
+// Creates a new linked list that is an exact copy 
+// of a pre-existing linked list
 //=================================================
 template <class T>
 List<T>::List( const List<T> &mylist ){
 	// Creating two pointer to keep track of the item to copy
 	Node* from;
 	Node* to;
+
+	Node* temp= NULL;
 
 	// If the mylist(the list to copy) is empty then head pointer will be null
 	// and do nothing
@@ -62,6 +69,8 @@ List<T>::List( const List<T> &mylist ){
 	while(from != NULL){
 		// Creating dynamic data for each item and copying element from the mylist
         to->next = new Node;
+		to->previous = temp;
+		temp = to;
         to = to->next;
         to->item = from->item;
 
@@ -79,8 +88,10 @@ List<T>::List( const List<T> &mylist ){
 
 //=================================================
 // destructor
-// PARAMETERS: none
+// PARAMETERS: 
+// none
 // Deletes the dynamically allocated memory to prevent memory leaks
+// In other words, it deletes all nodes from a linked list
 //=================================================
 template <class T>
 List<T>::~List( void ){
@@ -101,8 +112,9 @@ List<T>::~List( void ){
 
 //=================================================
 // prepend 
-// PARAMETERS: item
-// paramas type: constant reference params of template type variable
+// PARAMETERS: 
+// &item: constant reference params of template type variable
+// It represents an element to append to the end of the list.
 // This method allows you to add an item to the front of the list.
 //=================================================
 template <class T>
@@ -111,26 +123,32 @@ void List<T>::prepend( const T &item	) {
 	Node* newNodeptr = new Node;
     newNodeptr->item = item;
     newNodeptr->next = NULL; 
+	newNodeptr->previous = NULL; 
 
 	// If the list is empty
     if (head == NULL){
         head = newNodeptr; 
 		tail = head;       
     }
+	// otherwise place the node at the start (head) of the list
     else{
       	Node* temp;
 		temp = head;
 
 		head = newNodeptr; 
 		head->next = temp; 
+		temp->previous = head;
     }
+
+	size++;
 
 }
 
 //=================================================
 // append This method allows you to add an item to the front of the list.
-// PARAMETERS: item
-// paramas type: constant reference params of template type variable
+// PARAMETERS: 
+// &item: constant reference params of template type variable.
+// It represents an element to append to the end of the list.
 // This method allows you to add an item to the end of the list.
 //=================================================
 template <class T>
@@ -139,6 +157,7 @@ void List<T>::append( const T &item	) {
 	Node* newNodeptr = new Node;
     newNodeptr->item = item;
     newNodeptr->next = NULL; 
+	newNodeptr->previous = NULL; 
     
 	// If the list is empty
     if (head == NULL){
@@ -147,17 +166,23 @@ void List<T>::append( const T &item	) {
 	// If the list is not empty then making it next item on the list  
     else{
         tail->next = newNodeptr;
+		newNodeptr->previous= tail;
     }
 
 	// Linking the item to the end of the linked list
     tail = newNodeptr;
+
+	size++;
 }
 
 
 //=================================================
 // insert
-// PARAMETERS: item and index
-// paramas type: constant reference params of template type variable and integer 
+// PARAMETERS: 
+// &item: constant reference params of template type variable.
+// It is an element to insert at a specific index
+// index: integer. It is the index at which we want 
+// to insert the new item.
 // This method allows you to add an item the specified location (indices start at position 0). 
 // Else throw out of range exception.
 //=================================================
@@ -167,32 +192,32 @@ void List<T>::insert( const T &item, int index ) {
 	if (index < 0 || index > length()){
 		throw out_of_range("List<T>::insert( const T &item, int index ) : index is out of range");
 	}
-
-	Node* prev;  // Pointer to the previous item 
 	int counter=0;
 
 	// Initializing to the first item in the list
 	current = head;
-	prev = head;
 
 	// Creating a new node to insert the item
 	Node* newNodeptr = new Node;
 	newNodeptr->item = item;
 
-	if (head == NULL){
+	//if the list is empty 
+	if (head == NULL || index == length()){
 		append(item);
 		return;
 	}
+	//if the index is 0, insert item at the head
 	if (index == 0){
+		head -> previous = newNodeptr;
 		newNodeptr->next = head; 
-		head= newNodeptr;
+		newNodeptr->previous = NULL; 
+		head = newNodeptr;
 		return;
 	}
 
 	// Looping throught the list until the node with the index is found and checking the current to check 
 	// there is items in the list
 	while(current != NULL && counter < index){
-		prev = current;
 		current = current->next;	
 		counter ++;
 
@@ -200,15 +225,18 @@ void List<T>::insert( const T &item, int index ) {
 
 	// Changing the next node of previous node to the new node with the inserted item and pointing
 	// the next of the new node to the current node
-	newNodeptr->next = current; 			
-	prev->next= newNodeptr;
-	
+	newNodeptr->next = current; 
+	newNodeptr->previous = current->previous;
+	current->previous->next= newNodeptr;
+	//check
+	size++;
 }
 
 //=================================================
 // remove
-// PARAMETERS: index
-// paramas type: integer 
+// PARAMETERS: 
+// index: integer. The index at which we want to 
+// delete the item
 // Removes the item in the linked list in the given index
 //=================================================
 template <class T>
@@ -217,25 +245,43 @@ void List<T>::remove( int index ) {
 	if (index < 0 || index > length()){
 		throw out_of_range("List<T>::insert( const T &item, int index ) : index is out of range");
 	}
-	Node* prev;  // Pointer to the previous item 
+
+	Node* temp;
 	int counter = 0;
-	current = head;
 	
-	while(current != NULL && counter < index){
-		prev = current;
-		current = current->next;	
-		counter ++;
+	//if the item is at index 0 (the head)
+    if (index == 0){
+		temp = head;
+        head = head -> next;
+		head->previous= NULL;
+        delete temp;
+    }
+	else{
+		Node* to_remove = head;
+		while(index > 1){
+			index--;
+			to_remove = to_remove->next;
+		}
+		temp= to_remove->next;
+		to_remove->next = temp->next;
+		if (temp->next != NULL) {
+			temp->next->previous = to_remove;
+        }
+		
+		delete temp;
+
 	}
 
-	// Change the previous node next pointer to next pointer of the current node which is to be removed 		
-	prev->next = current->next;
+	size--;
 
 }
 
 //=================================================
 // search
-// PARAMETERS: item 
+// PARAMETERS: 
+// &item: Reference parameter to the element being searched for
 // This method finds the first instance of a specified item in the list.
+// returns -1 if item is not in the list
 //=================================================
 template <class T>
 int List<T>::search( const T &item ) const{
@@ -257,22 +303,13 @@ int List<T>::search( const T &item ) const{
 
 //=================================================
 // length
-// PARAMETERS: None
+// PARAMETERS: 
+// None
 // This method returns the number of items in the list.
 //=================================================
 template <class T>
 int List<T>::length( void ) const {
-	int count=0;
-	Node* temp;
-	temp = head;
-
-	// Loop through every item in the list and increase the counter
-	while(temp != NULL){
-		count++;
-		temp = temp->next;
-	}
-
-	return count;
+	return size;
 }
 
 //=================================================
@@ -283,37 +320,41 @@ int List<T>::length( void ) const {
 //=================================================
 template <class T>
 bool List<T>::empty	( void ) const {
-	return length() == 0;
+	return size == 0;
 }
 
 //=================================================
 // concat
-// PARAMETERS: mylist
-// paramas type: constant reference params of List object
+// PARAMETERS: 
+// &mylist: constant reference params of List object. 
+// This is the list we want to concatenate to the end
+// of the first list.
 // RETURN VALUE: returns a List class object
 // This method concatenates two existing lists to return the newly created list.
 //=================================================
 template <class T>
 List<T> List<T>::concat( const List<T> &mylist ) const {
+
 	// Creating list obj using copy constructor and passing this class list
-	List<T> list(*this);
+	List<T> listNew(*this);
 
 	Node* temp;
 	temp = mylist.head;
 
 	while( temp != NULL){
-		list.append(temp->item);
+		listNew.append(temp->item);
 		temp = temp->next;
 	}
 
-	return list;
+	return listNew;
 
 }
 
 //=================================================
 // [] operator overloading
-// PARAMETERS: index
-// paramas type: integer
+// PARAMETERS: 
+// index: integer, the index in the linked list at which we want
+// to the know the value of the item
 // RETURN VALUE: returns the item in the linked list at the index
 //=================================================
 template <class T>
@@ -338,8 +379,13 @@ T& List<T>::operator[]	( int index ) {
 
 //=================================================
 // = operator overloading
-// PARAMETERS: mylist
-// paramas type: constant reference params of List object
+// PARAMETERS: 
+// &mylist: constant reference params of List object.
+// This is the list that we want to set another list 
+// equal to.
+// RETURN VALUE:
+// a linked list that is an exact copy of the list we
+// want to set it equal to.
 //=================================================
 template <class T>
 List<T> List<T>::operator=( const List<T> &mylist ){
@@ -358,8 +404,3 @@ List<T> List<T>::operator=( const List<T> &mylist ){
 	// returning the current list of the List class
 	return *this;
 }
-
-
-
-
-

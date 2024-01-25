@@ -25,15 +25,15 @@ private:
 	struct Node
 	{
 		T	item;
-		Node* next;
+		Node* next;			//pointer to the next node 
+		Node* previous;			//pointer to the previous node 
 	};
 	
+	int size;		// size of the linked list
 	Node* head;		// Head pointer of the linked list
-
-	// ADDED PRIVATE VARS
-	int size; 			// Length of the linked list
 	Node* tail;			// the pointer to the last node 
-	Node* current;		//pointer to thr current node 
+	Node* current;		//pointer to the current node 
+	
 	
 public:
 			List		( void );
