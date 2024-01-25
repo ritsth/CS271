@@ -32,9 +32,7 @@ int main (void)
 		cout << "list2 = " << list2 << endl;
 
 	    cout << "length list1 =  " << list1.length() << endl;
-		cout << "\nlist1.insert(50,10);\nlist1.insert(0,0)\nlist1.insert(50,-12);\nlist1.insert(50,12);\nlist2[2] = 100;\n";
-
-		// list2[2] = 100;
+		cout << "\nlist1.insert(50,10);\nlist1.insert(0,0)\nlist1.insert(50,-12);\nlist1.insert(50,12);\n";
 
 		try{
 			list1.insert(50,10);
@@ -104,16 +102,23 @@ int main (void)
 			cout << "list1 is empty\n";
 		else
 			cout << "list1 is not empty\n";
-		return 0;		
+				
 
+		cout << "list2[2] = 100;\n";
+		list2[2] = 100;
+		list1[5] = -1000;
+		cout << "list1 = " << list1 << endl;
+		cout << "list2 = " << list2 << endl;
 
+		cout << "list2 = " << list2 << endl;
+		cout << "list2[1] = " << list2[1] << endl;
+		cout << "list2[0] = " << list2[0] << endl;
 		cout << "list2[10] = " << list2[10] << endl;
-
-
+		cout << "list2[-10] = " << list2[-10] << endl;	
 	}
 	catch(...){
-		cout << "Error..." << endl;
+		cout << "List<T>::insert( const T &item, int index ) : index is out of range" << endl;
 	}
-
+	return 0;
 }
 

@@ -83,6 +83,8 @@ List<T>::List( const List<T> &mylist ){
     to->next = NULL;
     tail = to;
 
+	size = mylist.size;
+
 }
 
 
@@ -360,7 +362,7 @@ List<T> List<T>::concat( const List<T> &mylist ) const {
 template <class T>
 T& List<T>::operator[]	( int index ) {
 	//index less than 0 or exceed legth of the list
-	if (index < 0 || index > length()){
+	if (index < 0 || index > (length()-1)){
 		throw out_of_range("List<T>::insert( const T &item, int index ) : index is out of range");
 	}
 	int counter = 0;
