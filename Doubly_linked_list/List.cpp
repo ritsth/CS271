@@ -391,6 +391,22 @@ T& List<T>::operator[]	( int index ) {
 //=================================================
 template <class T>
 List<T> List<T>::operator=( const List<T> &mylist ){
+	Node* temp1;
+	//Clear the exiting list 
+	while (current != NULL)
+	{
+		temp1 = current;
+		
+		// Changing current pointer to next element
+		current = current->next;
+		delete temp1;
+	}
+
+	head= NULL;
+	tail = NULL;
+	current = NULL;
+	size = 0;
+
 	// Pointer to point to the the head node of the mylist which is to be copied
 	Node* temp;
 	temp = mylist.head;

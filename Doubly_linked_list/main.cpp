@@ -114,6 +114,12 @@ int main (void)
 		cout << "list2[1] = " << list2[1] << endl;
 		cout << "list2[0] = " << list2[0] << endl;
 		cout << "list2[10] = " << list2[10] << endl;
+
+		cout << "list1 = list2;"<< endl;	
+		list1 = list2;
+		cout << "list1 = " << list1 << endl;
+		cout << "list2 = " << list2 << endl;
+
 		cout << "list2[-10] = " << list2[-10] << endl;	
 	}
 	catch(...){
