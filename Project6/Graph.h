@@ -13,26 +13,25 @@ using namespace std;
 #ifndef GRAPH_H
 #define GRAPH_H
 
-
 class Graph
 {
 private:
-
-    int     num_vertice;
-    int     num_edge;
-    //storing edge? Storing data in graph?
+    int     V;      // Number of vertices
+    int     E;      // Number of edges
+    // I'm using a 2D list for now I guess...
+    std::vector<std::vector<int>> adjMatrix;
 
 public:
-	Graph		                ( void );   //Default constructor
-    Graph		                ( int vertice, int edge); //Graph with the specified vertices and edges
-    Graph		                ( const Graph &myGraph ); // copy constructor
-	~Graph		                ( void ); // destructor
+	            Graph   ( void );                   // Default constructor
+                Graph   ( int vertices, int edges );  // Graph with the specified vertices and edges
+                Graph   ( const Graph &myGraph );   // Copy constructor
+	            ~Graph  ( void );                   // Destructor
 
-    Graph     operator=	    ( const Graph &myGraph );
+    Graph     operator=	( const Graph &myGraph );
 
-    bool      isEdge(int v1, int v2);
-    int       getWeight(int v1, int v2);
-    void      insertEdge(int v1, int v2, int w);
+    bool      isEdge    ( int v1, int v2 );
+    int       getWeight ( int v1, int v2 );
+    void      insertEdge( int v1, int v2, int w );
 
 
 //Overloading cout operator
