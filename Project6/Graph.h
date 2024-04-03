@@ -4,34 +4,34 @@
 // Date: 23 Feb 2024
 // This file contains declaration of Grap class.
 //===============================
-
 #include <iostream>
-#include <string>
-
 using namespace std;
 
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#define DEFAULT_VERTICES_NUM  10
+
 class Graph
 {
-private:
+protected:
     int     V;      // Number of vertices
     int     E;      // Number of edges
-    // I'm using a 2D list for now I guess...
-    std::vector<std::vector<int>> adjMatrix;
 
 public:
-	            Graph   ( void );                   // Default constructor
-                Graph   ( int vertices, int edges );  // Graph with the specified vertices and edges
-                Graph   ( const Graph &myGraph );   // Copy constructor
-	            ~Graph  ( void );                   // Destructor
+    virtual       ~Graph      ( void );                   
+    virtual void  insertEdge  ( int v1, int v2, int w);
+    virtual bool  isEdge      ( int v1, int v2 ) const;
+    virtual int   getWeight   ( int v1, int v2) const;     
+};
 
-    Graph     operator=	( const Graph &myGraph );
+#include "Graph.cpp"
 
-    bool      isEdge    ( int v1, int v2 );
-    int       getWeight ( int v1, int v2 );
-    void      insertEdge( int v1, int v2, int w );
+#endif  // GRAPH_H
+
+
+
+    
 
 
 //Overloading cout operator
@@ -56,7 +56,3 @@ public:
     //     in >> myGraph.num_edge;
     //     return in;	
     // }
-
-};
-
-#endif
