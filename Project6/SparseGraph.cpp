@@ -11,21 +11,19 @@ using namespace std;
 // INPUT: none
 // RETURN: none
 //==============================================
-SparseGraph::SparseGraph(void) {
-    V = 0;
-    E = 0;
-   map<int, vector<int>> adjList;
+SparseGraph::SparseGraph(void) : Graph(DEFAULT_VERTICES_NUM, 0){
+    adjList.resize(V);
 } 
 
-//==============================================
+//======================================.=======
 // SparseGraph(const SparseGraph &mySparseGraph)
 // Copy Contructor for SparseGraph class
 // Create a new SparseGraph from an existing one.
 // INPUT: const SparseGraph &mySparseGraph
 // RETURN: none
 //==============================================
-SparseGraph::SparseGraph  ( const SparseGraph& mygraph ){
-
+SparseGraph::SparseGraph  ( const SparseGraph& mygraph ): Graph(mygraph){
+    adjList = mygraph.adjList;
 }
 
 //==============================================
@@ -35,10 +33,8 @@ SparseGraph::SparseGraph  ( const SparseGraph& mygraph ){
 // RETURN: none
 //==============================================
 // Constructor with specifies V and E
-SparseGraph::SparseGraph  ( int V, int E ){
-    this->V = V;
-    this->E = E;
-    map<int, vector<int>> adjList;
+SparseGraph::SparseGraph  ( int V, int E ) : Graph(V, 0){
+    adjList.resize(V);
 }
 
 //==============================================
@@ -50,7 +46,8 @@ SparseGraph::SparseGraph  ( int V, int E ){
 //==============================================
 SparseGraph::~SparseGraph ( void ){
     //Clear()
-    
+    V = E = 0;
+    adjList.clear();
 }
 
 
@@ -62,7 +59,15 @@ SparseGraph::~SparseGraph ( void ){
 // RETURN: SparseGraph
 //==============================================
 SparseGraph& SparseGraph::operator=	    ( const SparseGraph &mySparseGraph ){
-
+    //Clearing
+    V=0;
+    E=0;
+    adjList.clear();
+    if (this != &mySparseGraph) {
+        Graph::operator=(mySparseGraph);        // Call base class assignment operator to copy V and E
+        adjList = mySparseGraph.adjList;    // Deep copy the adjacent matrix
+    }
+    return *this;
 }
 
 
@@ -74,10 +79,10 @@ SparseGraph& SparseGraph::operator=	    ( const SparseGraph &mySparseGraph ){
 // RETURN: bool
 //==============================================
 bool SparseGraph::isEdge(int v1, int v2) const {
-    // if (v1 < 0 || v1 >= V || v2 < 0 || v2 > V) 
-    //     throw std::invalid_argument("Invalid vertex number.");
-    // return adjMatrix[v1][v2] != -1;
-}
+    if (v1 < 0 || v1 >= V || v2 < 0 || v2 > V) 
+        throw std::invalid_argument("Invalid vertex number.");
+    return adjList[v1].find(v2) != adjList[v1].end();
+} 
 
 //==============================================
 // getWeight(int v1, int v2)
@@ -86,11 +91,13 @@ bool SparseGraph::isEdge(int v1, int v2) const {
 // RETURN: int
 //==============================================
 int SparseGraph::getWeight(int v1, int v2) const {
-    // if (v1 < 0 || v1 >= V || v2 < 0 || v2 > V)
-    //     throw std::invalid_argument("Invalid vertex number.");
-    // if (adjMatrix[v1][v2] == -1) 
-    //     throw std::runtime_error("Edge does not exist.");
-    // return adjMatrix[v1][v2];
+    if (v1 < 0 || v1 >= V || v2 < 0 || v2 > V)
+        throw std::invalid_argument("Invalid vertex number.");
+    // Check is there a edge first
+    if (isEdge( v1, v2)){
+        return adjList[v1].find(v2)->second; 
+    }
+    return -1;
 }
 
 #ifdef DIRECTED_GRAPH
@@ -101,26 +108,34 @@ int SparseGraph::getWeight(int v1, int v2) const {
 // RETURN: void
 //==============================================
 void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
-    // if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V || w < 0)
-    //     throw std::invalid_argument("Invalid edge parameters.");
-    // if (adjMatrix[v1][v2] == -1) 
-    //     E++;
-    // adjMatrix[v1][v2] = w;
+    if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V || w < 0)
+        throw std::invalid_argument("Invalid edge parameters.");
+
+    adjList[v1][{v2}] = w;
+    E++;
 }
 #endif 
 
 #ifndef DIRECTED_GRAPH
 //==============================================
 // insertEdge(int v1, int v2, int w = 1)
-// Inserts a edge between given vertices for a !()directed graph
+// Inserts a edge between given vertices for a undirected graph
 // INPUT: int v1, int v2, int w = 1
 // RETURN: void
 //==============================================
 void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
-    // if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V || w < 0) 
-    //     throw std::invalid_argument("Invalid edge parameters.");
-    // if (adjMatrix[v1][v2] == -1) 
-    //     E++;
-    // adjMatrix[v1][v2] = adjMatrix[v2][v1] = w;
+    if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V || w < 0) 
+        throw std::invalid_argument("Invalid edge parameters.");
+    adjList[v1][{v2}] = w;
+    adjList[v2][{v1}]= w;
+    E++;
 }
 #endif
+
+void        SparseGraph::print       ( ostream& os )const {
+    for (int i = 0; i < V; i++) {
+        for (auto each_dic = adjList[i].begin(); each_dic != adjList[i].end(); ++each_dic){
+            cout << i << " " << each_dic->first << " "<< each_dic->second << '\n';
+        }
+    }
+}

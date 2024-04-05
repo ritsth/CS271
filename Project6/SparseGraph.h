@@ -3,12 +3,13 @@
 
 #include "Graph.h"
 #include <map>
+#include <vector>
 
 // Derived class for sparse graph representation
 class SparseGraph : public Graph
 {
 private:
-    map<int, vector<int>> adjList;
+    vector<map<int,int>> adjList;
 
 public:
     // Primary Methods
@@ -23,6 +24,9 @@ public:
     void        insertEdge  ( int v1, int v2, int w);
     bool        isEdge      ( int v1, int v2 ) const;
     int         getWeight   ( int v1, int v2 ) const; 
+
+    // Supporting function for operator<<
+    void        print       ( ostream& os ) const; 
 };
 
 #endif  // SPARSEGRAPH_H

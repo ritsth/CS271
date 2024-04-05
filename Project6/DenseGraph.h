@@ -9,7 +9,7 @@ using namespace std;
 class DenseGraph : public Graph 
 {
 private:
-    std::vector<std::vector<int>>   adjMatrix;
+    vector<vector<int>>   adjMatrix;
 
 public:
     // Primary Methods

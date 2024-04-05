@@ -10,10 +10,8 @@ using namespace std;
 // INPUT: none
 // RETURN: none
 //==============================================
-DenseGraph::DenseGraph(void) {
-    V = 0;
-    E = 0;
-    vector<vector<int>>   adjMatrix;
+DenseGraph::DenseGraph(void) : Graph(DEFAULT_VERTICES_NUM, 0) {
+    adjMatrix.resize(V, vector<int>(V, -1));        // Initialize adjacency matrix with -1
 } 
 
 //==============================================
@@ -23,38 +21,44 @@ DenseGraph::DenseGraph(void) {
 // INPUT: const DenseGraph &myDenseGraph
 // RETURN: none
 //==============================================
-DenseGraph::DenseGraph  ( const DenseGraph& mygraph ){
-
-}
-
-//==============================================
-// DenseGraph(void)
-// Parameterized Contructor for DenseGraph class
-// INPUT: none
-// RETURN: none
-//==============================================
-// Default constructor
-DenseGraph::DenseGraph(void) : Graph(DEFAULT_VERTICES_NUM, 0) {
-    adjMatrix.resize(V, vector<int>(V, -1));        // Initialize adjacency matrix with -1
-} 
-
-// Copy constructor
 DenseGraph::DenseGraph(const DenseGraph& other) : Graph(other) {
     adjMatrix = other.adjMatrix;
 }
 
-// Constructor with specifies V and E
-DenseGraph::DenseGraph(int vertices, int edges) : Graph(vertices, 0) {
+//==============================================
+// DenseGraph(int vertices, int edges)
+// Parameterized Contructor for DenseGraph class
+// INPUT: int vertices, int edges
+// RETURN: none
+//==============================================
+DenseGraph::DenseGraph(int vertices, int edges) : Graph(vertices,0) {
     adjMatrix.resize(V, vector<int>(V, -1));        // Initialize adjacency matrix with -1
 }
 
-// Destructor
+//==============================================
+// ~DenseGraph(void)
+// Destructor for DenseGraph class
+// Cleans up the memory of the DenseGraph.
+// INPUT: none
+// RETURN: none
+//==============================================
 DenseGraph::~DenseGraph(void) {
     V = E = 0;
+    adjMatrix.clear();
 }
 
-// Assignment operator
+//==============================================
+// operator= ( const DenseGraph &myDenseGraph )
+// Assignment operator.
+// Assign DenseGraph to the class
+// INPUT: const DenseGraph &myDenseGraph 
+// RETURN: DenseGraph
+//==============================================
 DenseGraph& DenseGraph::operator=(const DenseGraph& other) {
+    //Clearing
+    V=0;
+    E=0;
+    adjMatrix.clear();
     if (this != &other) {
         Graph::operator=(other);        // Call base class assignment operator to copy V and E
         adjMatrix = other.adjMatrix;    // Deep copy the adjacent matrix
@@ -62,6 +66,12 @@ DenseGraph& DenseGraph::operator=(const DenseGraph& other) {
     return *this;
 }
 
+//==============================================
+// isEdge ( int v1, int v2 )
+// Returns true if there is a edge from the given vertices.
+// INPUT: int v,  int v2 
+// RETURN: bool
+//==============================================
 bool DenseGraph::isEdge(int v1, int v2) const {
     if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V) 
         throw std::invalid_argument("Invalid vertex number.");
@@ -82,10 +92,10 @@ int DenseGraph::getWeight(int v1, int v2) const {
     return adjMatrix[v1][v2];
 }
 
-#ifdef UNDIRECTED_GRAPH
+#ifdef DIRECTED_GRAPH
 //==============================================
 // insertEdge(int v1, int v2, int w = 1)
-// Inserts a edge between given vertices for a undirected graph
+// Inserts a edge between given vertices for a directed graph
 // INPUT: int v1, int v2, int w = 1
 // RETURN: void
 //==============================================
@@ -101,7 +111,7 @@ void DenseGraph::insertEdge(int v1, int v2, int w = 1) {
 #ifndef DIRECTED_GRAPH
 //==============================================
 // insertEdge(int v1, int v2, int w = 1)
-// Inserts a edge between given vertices for a directed graph
+// Inserts a edge between given vertices for a undirected graph
 // INPUT: int v1, int v2, int w = 1
 // RETURN: void
 //==============================================
@@ -114,6 +124,12 @@ void DenseGraph::insertEdge(int v1, int v2, int w = 1) {
 }
 #endif
 
+//==============================================
+// print (ostream& os)
+// Prints the graph
+// INPUT: ostream& os
+// RETURN: none
+//==============================================
 void DenseGraph::print(ostream& os) const {
     for (int i = 0; i < V; i++) {
         for (int j = 0; j < V; j++) {
