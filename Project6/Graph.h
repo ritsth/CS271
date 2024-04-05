@@ -19,40 +19,35 @@ protected:
     int     E;      // Number of edges
 
 public:
-    virtual       ~Graph      ( void );                   
-    virtual void  insertEdge  ( int v1, int v2, int w);
-    virtual bool  isEdge      ( int v1, int v2 ) const;
-    virtual int   getWeight   ( int v1, int v2) const;     
+    // Primary methods
+                        Graph       ( void );
+                        Graph       ( int vertices, int edges );
+                        Graph       ( const Graph& other );
+    virtual             ~Graph      ( void );        
+    virtual     Graph&  operator=   ( const Graph& other );
+
+    // Virtual method to be override by derived classes           
+    virtual     void    insertEdge  ( int v1, int v2, int w ) = 0;
+    virtual     bool    isEdge      ( int v1, int v2 ) const  = 0;
+    virtual     int     getWeight   ( int v1, int v2 ) const  = 0;     
+
+    // Supporting method for operator<< 
+    virtual     void    print       ( ostream& os ) const = 0; 
+    
+    // Friend functions for input and output operations
+    friend istream & operator>>(istream& is, Graph& graph) {
+        int v1, v2, weight;
+        while (is >> v1 >> v2 >> weight) {
+            graph.insertEdge(v1, v2, weight);
+        }
+        return is;
+    }
+    
+    friend ostream & operator<<(ostream& os, const Graph& graph) {
+        os << "G = (" << graph.V << ", " << graph.E << ")" << endl;
+        graph.print(os);
+        return os;
+    }
 };
 
-#include "Graph.cpp"
-
 #endif  // GRAPH_H
-
-
-
-    
-
-
-//Overloading cout operator
-
-    // friend ostream & operator<< ( ostream &os, Graph &myGraph )
-    // {
-    //     os << "[ ";
-
-    //     for(int i = 0 ; i < myGraph.num_vertice; i ++){
-
-    //         os << "" << myGraph.num_edge << " ";
-    //     }
-
-    //     os << "]";
-    //     return os;	
-    // }
-
-//Overloading cin operator
-
-    // friend istream & operator>> ( istream &in, Graph &myGraph )
-    // {
-    //     in >> myGraph.num_edge;
-    //     return in;	
-    // }

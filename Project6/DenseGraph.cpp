@@ -33,47 +33,37 @@ DenseGraph::DenseGraph  ( const DenseGraph& mygraph ){
 // INPUT: none
 // RETURN: none
 //==============================================
+// Default constructor
+DenseGraph::DenseGraph(void) : Graph(DEFAULT_VERTICES_NUM, 0) {
+    adjMatrix.resize(V, vector<int>(V, -1));        // Initialize adjacency matrix with -1
+} 
+
+// Copy constructor
+DenseGraph::DenseGraph(const DenseGraph& other) : Graph(other) {
+    adjMatrix = other.adjMatrix;
+}
+
 // Constructor with specifies V and E
-DenseGraph::DenseGraph  ( int V, int E ){
-    this->V = V;
-    this->E = E;
-    vector<vector<int>>  adjMatrix;
+DenseGraph::DenseGraph(int vertices, int edges) : Graph(vertices, 0) {
+    adjMatrix.resize(V, vector<int>(V, -1));        // Initialize adjacency matrix with -1
 }
 
-//==============================================
-// ~DenseGraph(void)
-// Destructor for DenseGraph class
-// Cleans up the memory of the DenseGraph.
-// INPUT: none
-// RETURN: none
-//==============================================
-DenseGraph::~DenseGraph ( void ){
-    //Clear()
-
+// Destructor
+DenseGraph::~DenseGraph(void) {
+    V = E = 0;
 }
 
-
-//==============================================
-// operator= ( const DenseGraph &myDenseGraph )
-// Assignment operator.
-// Assign DenseGraph to the class
-// INPUT: const DenseGraph &myDenseGraph 
-// RETURN: DenseGraph
-//==============================================
-DenseGraph& DenseGraph::operator=	    ( const DenseGraph &myDenseGraph ){
-
+// Assignment operator
+DenseGraph& DenseGraph::operator=(const DenseGraph& other) {
+    if (this != &other) {
+        Graph::operator=(other);        // Call base class assignment operator to copy V and E
+        adjMatrix = other.adjMatrix;    // Deep copy the adjacent matrix
+    }
+    return *this;
 }
 
-
-
-//==============================================
-// isEdge ( int v1, int v2 )
-// Returns true if there is a edge from the given vertices.
-// INPUT: int v,  int v2 
-// RETURN: bool
-//==============================================
 bool DenseGraph::isEdge(int v1, int v2) const {
-    if (v1 < 0 || v1 >= V || v2 < 0 || v2 > V) 
+    if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V) 
         throw std::invalid_argument("Invalid vertex number.");
     return adjMatrix[v1][v2] != -1;
 }
@@ -85,7 +75,7 @@ bool DenseGraph::isEdge(int v1, int v2) const {
 // RETURN: int
 //==============================================
 int DenseGraph::getWeight(int v1, int v2) const {
-    if (v1 < 0 || v1 >= V || v2 < 0 || v2 > V)
+    if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V)
         throw std::invalid_argument("Invalid vertex number.");
     if (adjMatrix[v1][v2] == -1) 
         throw std::runtime_error("Edge does not exist.");
@@ -123,3 +113,13 @@ void DenseGraph::insertEdge(int v1, int v2, int w = 1) {
     adjMatrix[v1][v2] = adjMatrix[v2][v1] = w;
 }
 #endif
+
+void DenseGraph::print(ostream& os) const {
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            if (adjMatrix[i][j] != -1) {
+                os << i << " " << j << " " << adjMatrix[i][j] << endl;
+            }
+        }
+    }
+}
