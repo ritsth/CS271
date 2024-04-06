@@ -58,10 +58,12 @@ int main ( void )
    cout << (*gp2);  
 
    printf("Testing Assignment op\n");
-   Graph *gp3 = gp2;
+   Graph *gp3;
+   gp3= gp2;
    
    cout << (*gp3);
 
+   cout<<"here";
    delete gp;
    delete gp2;
    delete gp3;

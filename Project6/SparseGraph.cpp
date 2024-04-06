@@ -15,7 +15,7 @@ SparseGraph::SparseGraph(void) : Graph(DEFAULT_VERTICES_NUM, 0){
     adjList.resize(V);
 } 
 
-//======================================.=======
+//==============================================
 // SparseGraph(const SparseGraph &mySparseGraph)
 // Copy Contructor for SparseGraph class
 // Create a new SparseGraph from an existing one.
@@ -32,7 +32,6 @@ SparseGraph::SparseGraph  ( const SparseGraph& mygraph ): Graph(mygraph){
 // INPUT: none
 // RETURN: none
 //==============================================
-// Constructor with specifies V and E
 SparseGraph::SparseGraph  ( int V, int E ) : Graph(V, 0){
     adjList.resize(V);
 }
@@ -59,11 +58,11 @@ SparseGraph::~SparseGraph ( void ){
 // RETURN: SparseGraph
 //==============================================
 SparseGraph& SparseGraph::operator=	    ( const SparseGraph &mySparseGraph ){
-    //Clearing
-    V=0;
-    E=0;
-    adjList.clear();
     if (this != &mySparseGraph) {
+        //Clearing
+        V=0;
+        E=0;
+        adjList.clear();
         Graph::operator=(mySparseGraph);        // Call base class assignment operator to copy V and E
         adjList = mySparseGraph.adjList;    // Deep copy the adjacent matrix
     }
@@ -110,9 +109,12 @@ int SparseGraph::getWeight(int v1, int v2) const {
 void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
     if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V || w < 0)
         throw std::invalid_argument("Invalid edge parameters.");
-
-    adjList[v1][{v2}] = w;
-    E++;
+    if (isEdge( v1, v2)){
+      adjList[v1].find(v2)->second = w;  
+    } else{
+        adjList[v1][{v2}] = w;
+        E++;
+    }
 }
 #endif 
 
@@ -126,16 +128,26 @@ void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
 void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
     if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V || w < 0) 
         throw std::invalid_argument("Invalid edge parameters.");
-    adjList[v1][{v2}] = w;
-    adjList[v2][{v1}]= w;
-    E++;
+        
+    if (isEdge( v1, v2)){
+      adjList[v1].find(v2)->second = w;  
+      adjList[v2].find(v1)->second = w; 
+    }else{
+        adjList[v1][{v2}] = w;
+        adjList[v2][{v1}]= w;
+        E++;
+    }
+    
 }
 #endif
 
 void        SparseGraph::print       ( ostream& os )const {
     for (int i = 0; i < V; i++) {
-        for (auto each_dic = adjList[i].begin(); each_dic != adjList[i].end(); ++each_dic){
-            cout << i << " " << each_dic->first << " "<< each_dic->second << '\n';
-        }
+        // for (int j = 0; j < adjList[i].size(); j++){
+        //     cout << i << " " << adjList[i]->first << " "<< each_dic->second << '\n';
+        // }
+        // for (auto each_dic = adjList[i].begin(); each_dic != adjList[i].end(); each_dic++){
+        //     cout << i << " " << each_dic->first << " "<< each_dic->second << '\n';
+        // }
     }
 }
