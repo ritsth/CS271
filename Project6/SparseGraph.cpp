@@ -44,7 +44,6 @@ SparseGraph::SparseGraph  ( int V, int E ) : Graph(V, 0){
 // RETURN: none
 //==============================================
 SparseGraph::~SparseGraph ( void ){
-    //Clear()
     V = E = 0;
     adjList.clear();
 }
@@ -92,6 +91,7 @@ bool SparseGraph::isEdge(int v1, int v2) const {
 int SparseGraph::getWeight(int v1, int v2) const {
     if (v1 < 0 || v1 >= V || v2 < 0 || v2 > V)
         throw std::invalid_argument("Invalid vertex number.");
+
     // Check is there a edge first
     if (isEdge( v1, v2)){
         return adjList[v1].find(v2)->second; 
@@ -109,8 +109,10 @@ int SparseGraph::getWeight(int v1, int v2) const {
 void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
     if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V || w < 0)
         throw std::invalid_argument("Invalid edge parameters.");
+    // Check is there a edge first
     if (isEdge( v1, v2)){
-      adjList[v1].find(v2)->second = w;  
+        //Overwriting the weight 
+       adjList[v1].find(v2)->second = w;  
     } else{
         adjList[v1][{v2}] = w;
         E++;
@@ -128,10 +130,11 @@ void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
 void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
     if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V || w < 0) 
         throw std::invalid_argument("Invalid edge parameters.");
-        
+    // Check is there a edge first
     if (isEdge( v1, v2)){
-      adjList[v1].find(v2)->second = w;  
-      adjList[v2].find(v1)->second = w; 
+        //Overwriting the weight 
+        adjList[v1].find(v2)->second = w;  
+        adjList[v2].find(v1)->second = w; 
     }else{
         adjList[v1][{v2}] = w;
         adjList[v2][{v1}]= w;

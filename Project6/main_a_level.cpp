@@ -55,6 +55,11 @@ int main ( void )
    gp2->insertEdge(3, 0, 4);
    gp2->insertEdge(1, 3, 5);
 
+   cout << *gp2;
+
+   gp2->insertEdge(1, 3, 10);
+
+   cout <<"Duplicate insertion" << endl;
    cout << (*gp2);  
 
    printf("Testing Assignment op\n");

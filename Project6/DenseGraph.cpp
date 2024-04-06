@@ -55,11 +55,11 @@ DenseGraph::~DenseGraph(void) {
 // RETURN: DenseGraph
 //==============================================
 DenseGraph& DenseGraph::operator=(const DenseGraph& other) {
-    //Clearing
-    V=0;
-    E=0;
-    adjMatrix.clear();
     if (this != &other) {
+        //Clearing
+        V=0;
+        E=0;
+        adjMatrix.clear();
         Graph::operator=(other);        // Call base class assignment operator to copy V and E
         adjMatrix = other.adjMatrix;    // Deep copy the adjacent matrix
     }
