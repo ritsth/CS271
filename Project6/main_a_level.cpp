@@ -58,14 +58,16 @@ int main ( void )
    cout << (*gp2);  
 
    printf("Testing Assignment op\n");
-   Graph *gp3;
-   gp3= gp2;
+   SparseGraph gp3, gp4;
+   cout << gp4 << endl;
+   gp3.insertEdge(1, 2, 10);
+   gp3.insertEdge(2, 5, 6);
+   cout << gp3 << endl;
+   gp4 = gp3;
+   cout << "gp4 = " << gp4 << endl;
    
-   cout << (*gp3);
-
-   cout<<"here";
-   delete gp;
+   cout<<"here" << endl;
    delete gp2;
-   delete gp3;
+   delete gp;
    return 0;
 }

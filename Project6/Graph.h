@@ -31,9 +31,6 @@ public:
     virtual     bool    isEdge      ( int v1, int v2 ) const  = 0;
     virtual     int     getWeight   ( int v1, int v2 ) const  = 0;     
 
-    // Supporting method for operator<< 
-    virtual     void    print       ( ostream& os ) const = 0; 
-    
     // Friend functions for input and output operations
     friend istream & operator>>(istream& is, Graph& graph) {
         int v1, v2, weight;
@@ -45,7 +42,13 @@ public:
     
     friend ostream & operator<<(ostream& os, const Graph& graph) {
         os << "G = (" << graph.V << ", " << graph.E << ")" << endl;
-        graph.print(os);
+        for (int v1 = 0; v1 < graph.V; v1++) {
+            for (int v2 = 0; v2 < graph.V; v2++) {
+                if (graph.isEdge(v1, v2)) {
+                    cout << v1 << " " << v2 << " " << graph.getWeight(v1, v2) << endl;
+                }
+            }
+        }
         return os;
     }
 };

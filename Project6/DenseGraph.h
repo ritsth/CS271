@@ -23,9 +23,7 @@ public:
     void        insertEdge  ( int v1, int v2, int w );
     bool        isEdge      ( int v1, int v2 ) const;
     int         getWeight   ( int v1, int v2 ) const; 
-
-    // Supporting function for operator<<
-    void        print       ( ostream& os ) const; 
+    
 };
 
 #endif  // DENSEGRAPH_H

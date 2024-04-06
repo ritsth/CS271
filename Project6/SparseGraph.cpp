@@ -140,14 +140,3 @@ void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
     
 }
 #endif
-
-void        SparseGraph::print       ( ostream& os )const {
-    for (int i = 0; i < V; i++) {
-        // for (int j = 0; j < adjList[i].size(); j++){
-        //     cout << i << " " << adjList[i]->first << " "<< each_dic->second << '\n';
-        // }
-        // for (auto each_dic = adjList[i].begin(); each_dic != adjList[i].end(); each_dic++){
-        //     cout << i << " " << each_dic->first << " "<< each_dic->second << '\n';
-        // }
-    }
-}
