@@ -1,6 +1,6 @@
 //===============================
 // Graph.h
-// Name: Ritika 
+// Name: Ritika, Max, Uyen
 // Date: 23 Feb 2024
 // This file contains declaration of Grap class.
 //===============================
