@@ -123,19 +123,3 @@ void DenseGraph::insertEdge(int v1, int v2, int w = 1) {
     adjMatrix[v1][v2] = adjMatrix[v2][v1] = w;
 }
 #endif
-
-//==============================================
-// print (ostream& os)
-// Prints the graph
-// INPUT: ostream& os
-// RETURN: none
-//==============================================
-void DenseGraph::print(ostream& os) const {
-    for (int i = 0; i < V; i++) {
-        for (int j = 0; j < V; j++) {
-            if (adjMatrix[i][j] != -1) {
-                os << i << " " << j << " " << adjMatrix[i][j] << endl;
-            }
-        }
-    }
-}
