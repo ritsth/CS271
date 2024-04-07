@@ -1,8 +1,13 @@
+//===============================
+// SparseGraph.cpp
+// Name: Ritika, Max, Uyen
+// Date: 23 Feb 2024
+// This file contains implementation of derived SparseGraph class.
+//===============================
 #include "SparseGraph.h"
 #include <map>
 #include <vector>
 #include <stdexcept>
-
 using namespace std;
 
 //==============================================
@@ -11,8 +16,8 @@ using namespace std;
 // INPUT: none
 // RETURN: none
 //==============================================
-SparseGraph::SparseGraph(void) : Graph(DEFAULT_VERTICES_NUM, 0){
-    adjList.resize(V);
+SparseGraph::SparseGraph(void) : Graph(DEFAULT_VERTICES_NUM, 0) {
+    adjList.resize(V);              // Resize the size of the adjList to V
 } 
 
 //==============================================
@@ -22,8 +27,8 @@ SparseGraph::SparseGraph(void) : Graph(DEFAULT_VERTICES_NUM, 0){
 // INPUT: const SparseGraph &mySparseGraph
 // RETURN: none
 //==============================================
-SparseGraph::SparseGraph  ( const SparseGraph& mygraph ): Graph(mygraph){
-    adjList = mygraph.adjList;
+SparseGraph::SparseGraph(const SparseGraph& mygraph) : Graph(mygraph) {
+    adjList = mygraph.adjList;      // Deep copy the adjMatrix of given SpareGraph object
 }
 
 //==============================================
@@ -32,8 +37,8 @@ SparseGraph::SparseGraph  ( const SparseGraph& mygraph ): Graph(mygraph){
 // INPUT: none
 // RETURN: none
 //==============================================
-SparseGraph::SparseGraph  ( int V, int E ) : Graph(V, 0){
-    adjList.resize(V);
+SparseGraph::SparseGraph(int V, int E) : Graph(V, 0) {
+    adjList.resize(V);              // Resize the size of the adjList to V
 }
 
 //==============================================
@@ -43,9 +48,9 @@ SparseGraph::SparseGraph  ( int V, int E ) : Graph(V, 0){
 // INPUT: none
 // RETURN: none
 //==============================================
-SparseGraph::~SparseGraph ( void ){
-    V = E = 0;
-    adjList.clear();
+SparseGraph::~SparseGraph(void) {
+    V = E = 0;                     // Reset V and E
+    adjList.clear();               // Clear the adjList
 }
 
 
@@ -56,19 +61,19 @@ SparseGraph::~SparseGraph ( void ){
 // INPUT: const SparseGraph &mySparseGraph 
 // RETURN: SparseGraph
 //==============================================
-SparseGraph& SparseGraph::operator=	    ( const SparseGraph &mySparseGraph ){
+SparseGraph& SparseGraph::operator=(const SparseGraph &mySparseGraph) {
+    // Check for self-assignment
     if (this != &mySparseGraph) {
-        //Clearing
-        V=0;
-        E=0;
+        // If not, first clear the current SparseGraph
+        V = E = 0;
         adjList.clear();
-        Graph::operator=(mySparseGraph);        // Call base class assignment operator to copy V and E
+        // Then, deep copy the variables of the given SparseGraph to the current graph
+        Graph::operator=(mySparseGraph);    // Call base class assignment operator to copy V and E
         adjList = mySparseGraph.adjList;    // Deep copy the adjacent matrix
     }
+    // Return a reference to the current object
     return *this;
 }
-
-
 
 //==============================================
 // isEdge ( int v1, int v2 )
@@ -77,8 +82,10 @@ SparseGraph& SparseGraph::operator=	    ( const SparseGraph &mySparseGraph ){
 // RETURN: bool
 //==============================================
 bool SparseGraph::isEdge(int v1, int v2) const {
-    if (v1 < 0 || v1 >= V || v2 < 0 || v2 > V) 
+    // First, check for valid parameters (0 <= v1, v2 < V)
+    if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V) 
         throw std::invalid_argument("Invalid vertex number.");
+    // Return true if an edge from v1 to v2 exists, else return false
     return adjList[v1].find(v2) != adjList[v1].end();
 } 
 
@@ -89,14 +96,16 @@ bool SparseGraph::isEdge(int v1, int v2) const {
 // RETURN: int
 //==============================================
 int SparseGraph::getWeight(int v1, int v2) const {
-    if (v1 < 0 || v1 >= V || v2 < 0 || v2 > V)
+    // First, check for valid parameters (0 <= v1, v2 < V)
+    if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V)
         throw std::invalid_argument("Invalid vertex number.");
-
-    // Check is there a edge first
-    if (isEdge( v1, v2)){
+    // Check if there is actually an edge from v1 to v2
+    if (isEdge(v1, v2)){
+        // If yes, return the weight
         return adjList[v1].find(v2)->second; 
     }
-    return -1;
+    // Else, throw an error to show that there is indeed no edge from v1 to v2
+    throw std::runtime_error("Edge does not exists.");
 }
 
 #ifdef DIRECTED_GRAPH
@@ -107,14 +116,16 @@ int SparseGraph::getWeight(int v1, int v2) const {
 // RETURN: void
 //==============================================
 void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
+    // First, check for valid parameters (0 <= v1, v2 < V && weight >= 0)
     if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V || w < 0)
         throw std::invalid_argument("Invalid edge parameters.");
-    // Check is there a edge first
-    if (isEdge( v1, v2)){
-        //Overwriting the weight 
+    // First, chech if there is an edge from v1 to v2 already
+    if (isEdge(v1, v2)){
+        // If yes, overwrite the current weight with the new weight
        adjList[v1].find(v2)->second = w;  
-    } else{
-        adjList[v1][{v2}] = w;
+    } else {
+        // If not yet, create a new edge from v1 to v2 with weight w and increase the number of edges
+        adjList[v1][v2] = w;
         E++;
     }
 }
@@ -128,18 +139,18 @@ void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
 // RETURN: void
 //==============================================
 void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
+    // First, check for valid parameters (0 <= v1, v2 < V && weight >= 0)
     if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V || w < 0) 
         throw std::invalid_argument("Invalid edge parameters.");
-    // Check is there a edge first
-    if (isEdge( v1, v2)){
-        //Overwriting the weight 
+    // First, chech if there is an edge from v1 to v2 already
+    if (isEdge(v1, v2)) {
+        // If yes, overwrite the current weight with the new weight (v1 -> v2 and v2 -> v1)
         adjList[v1].find(v2)->second = w;  
         adjList[v2].find(v1)->second = w; 
-    }else{
-        adjList[v1][{v2}] = w;
-        adjList[v2][{v1}]= w;
+    } else {
+        // If not yet, create a new edge from v1->v2 and from v2->v1 and increase the number of edges
+        adjList[v1][v2] = adjList[v2][v1] = w;
         E++;
     }
-    
 }
 #endif

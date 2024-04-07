@@ -1,3 +1,9 @@
+//===============================
+// Graph.cpp
+// Name: Ritika, Max, Uyen
+// Date: 23 Feb 2024
+// This file contains implementation of Graph class.
+//===============================
 #include "Graph.h"
 #include <iostream>
 #include <stdexcept>
@@ -69,6 +75,3 @@ Graph& Graph::operator=(const Graph& other) {
     E = other.E;
     return *this;
 }
-
-
-

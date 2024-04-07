@@ -2,7 +2,7 @@
 // Graph.h
 // Name: Ritika, Max, Uyen
 // Date: 23 Feb 2024
-// This file contains declaration of Grap class.
+// This file contains declaration of Graph class.
 //===============================
 #include <iostream>
 using namespace std;
