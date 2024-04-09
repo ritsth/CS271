@@ -31,6 +31,24 @@ public:
     virtual     bool    isEdge      ( int v1, int v2 ) const  = 0;
     virtual     int     getWeight   ( int v1, int v2 ) const  = 0;     
 
+    // BFS based algorithms
+    virtual    void BFS ( int source );
+    virtual    void printBFSTable ( int source );
+    virtual    void printBFSPath ( int s, int d );
+    virtual    void printMostDistant ( int s );
+    virtual    bool isConnected ( void );
+
+    // DFS based algorithms
+    virtual    void DFS ( void );
+    virtual    void DFS_Visit ( int v, int &clock );
+    virtual    void printDFSTable ( void );
+    virtual    void printTopologicalSort ( void );
+    virtual    void printDFSParenthesization( void );
+    virtual    void classifyDFSEdges ( void );
+    virtual    void indexSort ( int a[] );
+
+
+
     // Friend functions for input and output operations
     friend istream & operator>>(istream& is, Graph& graph) {
         int v1, v2, weight;

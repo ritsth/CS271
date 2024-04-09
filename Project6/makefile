@@ -1,19 +1,13 @@
-all: main maind
+all: main_bfs_undirected main_bfs_directed main_dfs_directed main_dfs_undirected
 
-maind: main_a_level.cpp Graph.cpp Graph.h DenseGraph.cpp DenseGraph.h SparseGraph.cpp SparseGraph.h
-	g++ -std=c++2a -o maind -DDIRECTED_GRAPH main_a_level.cpp Graph.cpp DenseGraph.cpp SparseGraph.cpp
+main_bfs_directed: main_bfs.cpp Graph.cpp Graph.h DenseGraph.h DenseGraph.cpp SparseGraph.h SparseGraph.cpp
+	g++ -std=c++2a -o main_bfs_directed -DDIRECTED_GRAPH main_bfs.cpp Graph.cpp DenseGraph.cpp SparseGraph.cpp
 
-main: main_a_level.o Graph.o DenseGraph.o SparseGraph.o
-	g++ -std=c++2a -o main main_a_level.o Graph.o DenseGraph.o SparseGraph.o
+main_bfs_undirected: main_bfs.cpp Graph.cpp Graph.h DenseGraph.h DenseGraph.cpp SparseGraph.h SparseGraph.cpp
+	g++ -std=c++2a -o main_bfs_undirected main_bfs.cpp Graph.cpp DenseGraph.cpp SparseGraph.cpp
 
-main_a_level.o: main_a_level.cpp Graph.h DenseGraph.h SparseGraph.h
-	g++ -std=c++2a -c main_a_level.cpp
+main_dfs_directed: main_dfs.cpp Graph.cpp Graph.h DenseGraph.h DenseGraph.cpp SparseGraph.h SparseGraph.cpp
+	g++ -std=c++2a -o main_dfs_directed -DDIRECTED_GRAPH main_dfs.cpp Graph.cpp DenseGraph.cpp SparseGraph.cpp
 
-Graph.o: Graph.h Graph.cpp
-	g++ -std=c++2a -c Graph.cpp
-
-DenseGraph.o: DenseGraph.h DenseGraph.cpp Graph.h
-	g++ -std=c++2a -c DenseGraph.cpp
-
-SparseGraph.o: SparseGraph.h SparseGraph.cpp Graph.h
-	g++ -std=c++2a -c SparseGraph.cpp
+main_dfs_undirected: main_dfs.cpp Graph.cpp Graph.h DenseGraph.h DenseGraph.cpp SparseGraph.h SparseGraph.cpp
+	g++ -std=c++2a -o main_dfs_undirected main_dfs.cpp Graph.cpp DenseGraph.cpp SparseGraph.cpp
