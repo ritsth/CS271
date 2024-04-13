@@ -29,6 +29,12 @@ public:
     void        insertEdge  ( int v1, int v2, int w );      // Insert a new edge to a graph, override if already existed
     bool        isEdge      ( int v1, int v2 ) const;       // Check if there is an edge
     int         getWeight   ( int v1, int v2 ) const;       // Return the weight of an edge
+
+    void BFS ( int source );
+    void printBFSTable ( int source );
+    void printBFSPath ( int s, int d );
+    void printMostDistant ( int s );
+    bool isConnected ( void );
     
 };
 

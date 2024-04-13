@@ -7,6 +7,7 @@
 #include "Graph.h"
 #include <iostream>
 #include <stdexcept>
+#include <queue>
 using namespace std;
 
 //==============================================
@@ -75,3 +76,26 @@ Graph& Graph::operator=(const Graph& other) {
     E = other.E;
     return *this;
 }
+
+int     Graph::size   () const{
+    return V;
+}
+
+// void Graph::BFS ( int source ){
+//     queue<int> pq;
+//     for(int i=0; i < V; i++){
+//         //Initialization
+        
+//     }
+
+
+
+// }
+
+// void Graph::printBFSTable ( int source ){
+
+// }
+
+// void Graph::printBFSPath ( int s, int d ){
+
+// }

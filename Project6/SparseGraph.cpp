@@ -8,6 +8,7 @@
 #include <map>
 #include <vector>
 #include <stdexcept>
+#include <queue>
 using namespace std;
 
 //==============================================
@@ -154,3 +155,109 @@ void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
     }
 }
 #endif
+
+void SparseGraph::BFS ( int source ){
+    queue<int> pq;
+    adjVertex.resize(V);
+    for(int i=0; i < V; i++){
+        //Initialization
+        adjVertex[i].color = 'W';
+        adjVertex[i].pred = -1;
+        adjVertex[i].dist = -1;
+    }
+
+    adjVertex[source].color = 'G';
+    adjVertex[source].pred = -1;
+    adjVertex[source].dist = 0;
+
+    pq.push(source);
+    int u;
+
+    while (!pq.empty()){
+        u = pq.front();
+        pq.pop();
+
+        //for each vertex connected from u
+        for(int v=0;v <V;v++){
+            if (isEdge(u,v)){
+                if (adjVertex[v].color == 'W'){
+                    adjVertex[v].color = 'G';
+                    adjVertex[v].pred = u;
+                    adjVertex[v].dist = adjVertex[u].dist+1;
+                    pq.push(v);
+                }                
+            }
+        }
+        adjVertex[u].color = 'B';
+    }
+
+
+}
+
+void SparseGraph::printBFSTable ( int source ){
+    cout << "Vertex:         ";
+    for (int i=source; i < V;i++){
+        cout << "v" << i << "  ";
+    }
+    cout << "\nPredecessor:    ";
+    for (int i=source; i < V;i++){
+        if (adjVertex[i].pred != -1){
+            cout << "v" << adjVertex[i].pred << "  ";            
+        }
+        else{
+            cout <<adjVertex[i].pred << "  ";  
+        }
+    }
+    cout << "\nDistance:        ";
+    for (int i=source; i < V;i++){
+        cout << adjVertex[i].dist << "   ";
+    }
+    cout << "\nColor:           ";
+    for (int i=source; i < V;i++){
+        cout  << adjVertex[i].color << "   ";
+    }
+    cout << ""<< endl;
+}
+
+void SparseGraph::printBFSPath ( int s, int d ){
+    if(s == d){
+        cout << "v" << s <<" ";
+    }
+    else if (adjVertex[d].pred == -1)
+    {
+        cout<< "No path from " <<  s << " to " << d << " exists." <<endl;
+    }
+    else{
+        printBFSPath (s,adjVertex[d].pred);
+        cout << "v" << d << " ";
+    }
+    
+}
+
+void SparseGraph::printMostDistant ( int s ){
+    int max_dist = 0;
+    //Find the max distance
+    for(int i=0;i< V;i++){
+        if(adjVertex[i].dist > max_dist){
+            max_dist = adjVertex[i].dist ;
+        }
+    }    
+    
+    //Find the max distance vertex
+    for(int i=0;i< V;i++){
+        if(adjVertex[i].dist == max_dist){
+            cout << "v" << i << " ";
+        }
+    }      
+    cout << "\nMax distance: " << max_dist << endl;  
+
+}
+    
+bool SparseGraph::isConnected ( void ){
+    for(int i=1;i< V;i++){
+        if(adjVertex[i].pred == -1){
+            return false;
+        }
+    }
+    return true;
+}

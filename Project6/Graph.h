@@ -5,6 +5,7 @@
 // This file contains declaration of Graph class.
 //===============================
 #include <iostream>
+#include <vector>
 using namespace std;
 
 #ifndef GRAPH_H
@@ -18,6 +19,16 @@ protected:
     int     V;      // Number of vertices
     int     E;      // Number of edges
 
+    struct Vertex {
+        int pred;
+        int dist;
+        char color;
+
+        Vertex() : pred(-1),  dist(-1), color('W'){}
+    };
+
+    vector<Vertex> adjVertex;
+
 public:
     // Primary methods
                         Graph       ( void );
@@ -30,22 +41,23 @@ public:
     virtual     void    insertEdge  ( int v1, int v2, int w ) = 0;
     virtual     bool    isEdge      ( int v1, int v2 ) const  = 0;
     virtual     int     getWeight   ( int v1, int v2 ) const  = 0;     
+    virtual     int     size   () const;     
 
     // BFS based algorithms
-    virtual    void BFS ( int source );
-    virtual    void printBFSTable ( int source );
-    virtual    void printBFSPath ( int s, int d );
-    virtual    void printMostDistant ( int s );
-    virtual    bool isConnected ( void );
+    virtual    void BFS ( int source ) = 0;
+    virtual    void printBFSTable ( int source ) = 0;
+    virtual    void printBFSPath ( int s, int d ) = 0;
+    virtual    void printMostDistant ( int s ) =0;
+    virtual    bool isConnected ( void ) =0;
 
     // DFS based algorithms
-    virtual    void DFS ( void );
-    virtual    void DFS_Visit ( int v, int &clock );
-    virtual    void printDFSTable ( void );
-    virtual    void printTopologicalSort ( void );
-    virtual    void printDFSParenthesization( void );
-    virtual    void classifyDFSEdges ( void );
-    virtual    void indexSort ( int a[] );
+    // virtual    void DFS ( void );
+    // virtual    void DFS_Visit ( int v, int &clock );
+    // virtual    void printDFSTable ( void );
+    // virtual    void printTopologicalSort ( void );
+    // virtual    void printDFSParenthesization( void );
+    // virtual    void classifyDFSEdges ( void );
+    // virtual    void indexSort ( int a[] );
 
 
 
