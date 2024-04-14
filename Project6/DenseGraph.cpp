@@ -7,6 +7,7 @@
 #include "DenseGraph.h"
 #include <iomanip>
 #include <queue>
+#include <functional>
 #include <vector>
 #include <stdexcept>
 using namespace std;
@@ -208,6 +209,15 @@ void DenseGraph::printBFSTable ( int source ){
     cout << ""<< endl;
 }
 
+//==============================================
+// printBFSPath(int s, int d)
+// This function prints the path from the source
+// vertex to a specified destination vertex. If 
+// there is no path between the two vertices,
+// it prints "No path from s to d exists"
+// INPUT: none
+// RETURN: void
+//==============================================
 void DenseGraph::printBFSPath ( int s, int d ){
     if(s == d){
         cout << "v" << s <<" ";
@@ -223,6 +233,15 @@ void DenseGraph::printBFSPath ( int s, int d ){
     
 }
 
+//==============================================
+// PrintMostDistant(int s)
+// This function priints a list of all vertices
+// that are the furthest from the source vertex
+// that started our BFS at.
+// INPUT: 
+// int s: a source node
+// RETURN: void
+//==============================================
 void DenseGraph::printMostDistant ( int s ){
     int max_dist = 0;
     //Find the max distance
@@ -242,7 +261,14 @@ void DenseGraph::printMostDistant ( int s ){
 
 
 }
-    
+
+//==============================================
+// isConnected(void)
+// This function returns true if the graph is
+// connected and false otherwise
+// INPUT: none
+// RETURN: a boolean value
+//==============================================
 bool DenseGraph::isConnected ( void ){
     for(int i=1;i< V;i++){
         if(adjVertex[i].pred == -1){
@@ -255,6 +281,15 @@ bool DenseGraph::isConnected ( void ){
 //============================================================
 // ! DFS-based algorithms
 //============================================================
+
+//==============================================
+// DFS(void)
+// This function performs a depth first search on 
+// a graph. Most of the actual work is done by the
+// DFS_Visit() function (see next function)
+// INPUT: none
+// RETURN: void
+//==============================================
 void DenseGraph::DFS(void) {
     info.resize(adjMatrix.size());
     int time = 0;
@@ -265,12 +300,26 @@ void DenseGraph::DFS(void) {
     }
 }
 
-
+//==============================================
+// DFS_Visit(int v, int &clock)
+// This function visits each vertex, and assigns
+// it a discovery time.
+// It recursively calls itself to visit every 
+// vertex adjacent to the current one. Once All
+// adjacent vertices have been finished, we can set
+// the current vertex's finish time, and change 
+// its color to black
+// INPUT: 
+// int v: Index for the current vertex being visited
+// int &clock: reference parameter to the current time
+// RETURN: void
+//==============================================
 void DenseGraph::DFS_Visit(int v, int &clock) {
     clock++;
     info[v].discoveryTime = clock;
     info[v].color = 'G';
     for (int i = 0; i < adjMatrix[v].size(); i++) {
+        //only visit if color is white (i.e. has not been visited yet)
         if (adjMatrix[v][i] != -1 && info[i].color == 'W') {
             info[i].pred = v;
             DFS_Visit(i, clock);
@@ -281,7 +330,13 @@ void DenseGraph::DFS_Visit(int v, int &clock) {
     info[v].color = 'B';
 }
 
-
+//==============================================
+// printDFSParenthesization(void)
+// This function uses the DFS table information to 
+// print out a parenthesization of the search
+// INPUT: none
+// RETURN: void
+//==============================================
 void DenseGraph::printDFSParenthesization(void) {
     vector<bool> visited(V, false);
 
@@ -318,7 +373,16 @@ void DenseGraph::printDFSParenthesization(void) {
 }
 
 
-
+//==============================================
+// classifyDFSEdges(void)
+// This function puts each edge into one of three 
+// categories:
+// 1. tree/forward edge
+// 2. back edge
+// 3. cross edge
+// INPUT: none
+// RETURN: void
+//==============================================
 void DenseGraph::classifyDFSEdges(void) {
     for (int u = 0; u < adjMatrix.size(); u++) {
             for (int v = 0; v < adjMatrix[u].size(); v++) {

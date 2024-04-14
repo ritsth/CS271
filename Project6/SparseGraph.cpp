@@ -9,6 +9,7 @@
 #include <vector>
 #include <stdexcept>
 #include <queue>
+#include <functional>
 using namespace std;
 
 //==============================================
