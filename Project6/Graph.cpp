@@ -9,6 +9,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <queue>
+#include<algorithm>
+
 using namespace std;
 
 //==============================================

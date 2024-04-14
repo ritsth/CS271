@@ -41,8 +41,6 @@ public:
     // DFS based algorithm
     void        DFS                      ( void ); 
     void        DFS_Visit                ( int v, int &clock );
-    // void        printDFSTable            ( void );
-    // void        printTopologicalSort     ( void );
     void        printDFSParenthesization ( void );
     void        classifyDFSEdges         ( void );
     
