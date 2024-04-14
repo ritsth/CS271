@@ -157,6 +157,15 @@ void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
 }
 #endif
 
+//==============================================
+// BFS(int source)
+// This function performs a Breadth First Search
+// on a graph, starting at a source node and 
+// moving outwards in all directions from there
+// INPUT: 
+// int source: a source node to start the search at
+// RETURN: void
+//==============================================
 void SparseGraph::BFS ( int source ){
     queue<int> pq;
     adjVertex.resize(V);
@@ -195,6 +204,15 @@ void SparseGraph::BFS ( int source ){
 
 }
 
+//==============================================
+// printBFStable(int source)
+// This function prints a BFS table with the 
+// predecessor, distance from the source and
+// color for each vertex
+// INPUT: 
+// int source: a source node to start the search at
+// RETURN: void
+//==============================================
 void SparseGraph::printBFSTable ( int source ){
     cout << "Vertex:         ";
     for (int i=source; i < V;i++){
@@ -220,6 +238,17 @@ void SparseGraph::printBFSTable ( int source ){
     cout << ""<< endl;
 }
 
+//==============================================
+// printBFSPath(int s, int d)
+// This function prints the path from the source
+// vertex to a specified destination vertex. If 
+// there is no path between the two vertices,
+// it prints "No path from s to d exists"
+// INPUT: 
+// int s: the source node used in BFS
+// int d: a destination node that we want a valid path to
+// RETURN: void
+//==============================================
 void SparseGraph::printBFSPath ( int s, int d ){
     if(s == d){
         cout << "v" << s <<" ";
@@ -235,6 +264,15 @@ void SparseGraph::printBFSPath ( int s, int d ){
     
 }
 
+//==============================================
+// PrintMostDistant(int s)
+// This function priints a list of all vertices
+// that are the furthest from the source vertex
+// that started our BFS at.
+// INPUT: 
+// int s: a source node
+// RETURN: void
+//==============================================
 void SparseGraph::printMostDistant ( int s ){
     int max_dist = 0;
     //Find the max distance
@@ -253,7 +291,14 @@ void SparseGraph::printMostDistant ( int s ){
     cout << "\nMax distance: " << max_dist << endl;  
 
 }
-    
+
+//==============================================
+// isConnected(void)
+// This function returns true if the graph is
+// connected and false otherwise
+// INPUT: none
+// RETURN: a boolean value
+//==============================================
 bool SparseGraph::isConnected ( void ){
     for(int i=1;i< V;i++){
         if(adjVertex[i].pred == -1){
@@ -266,6 +311,15 @@ bool SparseGraph::isConnected ( void ){
 //============================================================
 // ! DFS-based algorithms
 //============================================================
+
+//==============================================
+// DFS(void)
+// This function performs a depth first search on 
+// a graph. Most of the actual work is done by the
+// DFS_Visit() function (see next function)
+// INPUT: none
+// RETURN: void
+//==============================================
 void SparseGraph::DFS(void) {
     info.resize(V);  
     int time = 0;
@@ -276,7 +330,20 @@ void SparseGraph::DFS(void) {
     }
 }
 
-
+//==============================================
+// DFS_Visit(int v, int &clock)
+// This function visits each vertex, and assigns
+// it a discovery time.
+// It recursively calls itself to visit every 
+// vertex adjacent to the current one. Once All
+// adjacent vertices have been finished, we can set
+// the current vertex's finish time, and change 
+// its color to black
+// INPUT: 
+// int v: Index for the current vertex being visited
+// int &clock: reference parameter to the current time
+// RETURN: void
+//==============================================
 void SparseGraph::DFS_Visit(int v, int &clock) {
     clock++;
     info[v].discoveryTime = clock;
@@ -293,7 +360,13 @@ void SparseGraph::DFS_Visit(int v, int &clock) {
     info[v].color = 'B';
 }
 
-
+//==============================================
+// printDFSParenthesization(void)
+// This function uses the DFS table information to 
+// print out a parenthesization of the search
+// INPUT: none
+// RETURN: void
+//==============================================
 void SparseGraph::printDFSParenthesization(void) {
     vector<bool> visited(V, false);
 
@@ -330,8 +403,16 @@ void SparseGraph::printDFSParenthesization(void) {
     cout << endl;  
 }
 
-
-
+//==============================================
+// classifyDFSEdges(void)
+// This function puts each edge into one of three 
+// categories:
+// 1. tree/forward edge
+// 2. back edge
+// 3. cross edge
+// INPUT: none
+// RETURN: void
+//==============================================
 void SparseGraph::classifyDFSEdges(void) {
     for (int u = 0; u < V; u++) {
         for (map<int, int>::const_iterator it = adjList[u].begin(); it != adjList[u].end(); ++it) {
