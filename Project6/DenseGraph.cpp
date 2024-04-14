@@ -145,7 +145,15 @@ void DenseGraph::insertEdge(int v1, int v2, int w = 1) {
 }
 #endif
 
-
+//==============================================
+// BFS(int source)
+// This function performs a Breadth First Search
+// on a graph, starting at a source node and 
+// moving outwards in all directions from there
+// INPUT: 
+// int source: a source node to start the search at
+// RETURN: void
+//==============================================
 void DenseGraph::BFS ( int source ){
     queue<int> pq;
     adjVertex.resize(V);
@@ -184,6 +192,15 @@ void DenseGraph::BFS ( int source ){
 
 }
 
+//==============================================
+// printBFStable(int source)
+// This function prints a BFS table with the 
+// predecessor, distance from the source and
+// color for each vertex
+// INPUT: 
+// int source: a source node to start the search at
+// RETURN: void
+//==============================================
 void DenseGraph::printBFSTable ( int source ){
     cout << "Vertex:         ";
     for (int i=source; i < V;i++){
@@ -215,7 +232,9 @@ void DenseGraph::printBFSTable ( int source ){
 // vertex to a specified destination vertex. If 
 // there is no path between the two vertices,
 // it prints "No path from s to d exists"
-// INPUT: none
+// INPUT: 
+// int s: the source node used in BFS
+// int d: a destination node that we want a valid path to
 // RETURN: void
 //==============================================
 void DenseGraph::printBFSPath ( int s, int d ){
