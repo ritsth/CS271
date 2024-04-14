@@ -41,6 +41,8 @@ protected:
     vector<Vertex>      adjVertex;
     vector<VertexInfo>  info;
 
+                void     indexSort  ( int a[] );
+
 public:
     // Primary methods
                         Graph       ( void );
@@ -65,11 +67,10 @@ public:
     // DFS based algorithms
     virtual    void     DFS                      ( void ) = 0; 
     virtual    void     DFS_Visit                ( int v, int &clock ) = 0;
-    virtual    void     printDFSTable            ( void ) = 0;
-    virtual    void     printTopologicalSort     ( void ) = 0;
+               void     printDFSTable            ( void );
+               void     printTopologicalSort     ( void );
     virtual    void     printDFSParenthesization ( void ) = 0;
     virtual    void     classifyDFSEdges         ( void ) = 0;
-    // virtual    void     indexSort                ( int a[] ) = 0;
 
     // Friend functions for input and output operations
     friend istream & operator>>(istream& is, Graph& graph) {

@@ -293,40 +293,42 @@ void SparseGraph::DFS_Visit(int v, int &clock) {
 }
 
 
-void SparseGraph::printDFSTable(void) {
-    if (V <= 10) {
-        cout << "DFS Table for Source Node" << endl;
-        for (size_t i = 0; i < info.size(); i++) {
-            cout << "Vertex " << i << ": "
-                 << "Discovery: " << info[i].discoveryTime << ", "
-                 << "Finish: " << info[i].finishingTime << ", "
-                 << "Predecessor: " << (info[i].pred != -1 ? to_string(info[i].pred) : "NIL") << endl;
-        }
-    } else {
-        cout << "No DFS Table printed" << endl;
-    }
-}
-
-
-void SparseGraph::printTopologicalSort(void) {
-    vector<pair<int, int>> topSort;
-    for (size_t i = 0; i < info.size(); i++) {
-        topSort.push_back(make_pair(info[i].finishingTime, i));
-    }
-    sort(topSort.rbegin(), topSort.rend()); 
-    for (size_t i = 0; i < topSort.size(); i++) {
-        const pair<int, int>& vertex = topSort[i];
-        cout << "v" << vertex.second;
-        if (i < topSort.size() - 1)
-            cout << " > ";
-    }
-    cout << endl;
-}
-
-
 void SparseGraph::printDFSParenthesization(void) {
-    int v = 0;
+    vector<bool> visited(V, false);
+
+    function<void(int, bool)> dfsParenthesize = [&](int v, bool isFirst) {
+        visited[v] = true;
+        if (isFirst) {
+            cout << "(v" << v; 
+        } else {
+            cout << " (v" << v;  
+        }
+
+        bool first = true;
+        for (map<int, int>::const_iterator it = adjList[v].begin(); it != adjList[v].end(); ++it) {
+            int u = it->first;  
+            if (!visited[u]) {
+                if (first)
+                    first = false;
+                dfsParenthesize(u, false); 
+            }
+        }
+        cout << " v" << v << ")"; 
+    };
+
+    bool isFirst = true;
+    for (int i = 0; i < V; i++) {
+        if (!visited[i]) {
+            dfsParenthesize(i, isFirst);  
+            if (isFirst)
+                isFirst = false;  
+            else 
+                cout << " ";  
+        }
+    }
+    cout << endl;  
 }
+
 
 
 void SparseGraph::classifyDFSEdges(void) {
