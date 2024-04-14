@@ -74,6 +74,7 @@
         "random": "cpp",
         "fstream": "cpp",
         "cinttypes": "cpp",
-        "__tree": "cpp"
+        "__tree": "cpp",
+        "queue": "cpp"
     }
 }

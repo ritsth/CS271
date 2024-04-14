@@ -19,8 +19,8 @@ int main ( void )
    int nv, ne;
    cin >> nv >> ne;
    //gp = new Graph(nv,ne);         // for B level
-   gp = new DenseGraph(nv,ne);      // for A level
-   //gp = new SparseGraph(nv,ne);   // other choice for A level
+   // gp = new DenseGraph(nv,ne);      // for A level
+   gp = new SparseGraph(nv,ne);   // other choice for A level
    cin >> (*gp);
    //cout << (*gp);
 
@@ -36,11 +36,11 @@ int main ( void )
    //gp->printMostDistant(0);
 
    // Part 2: Print parenthesization
-   printf("\n\n");
-   printf("Part 2: Depth First Parenthesization\n");
-   if ( gp->size() <= 10 )
-      gp->printDFSParenthesization();
-   printf("\n");
+   // printf("\n\n");
+   // printf("Part 2: Depth First Parenthesization\n");
+   // if ( gp->size() <= 10 )
+   //    gp->printDFSParenthesization();
+   // printf("\n");
 
    // Part 3: Print path from vertex 0 to vertex numV-1
    printf("\n\nPart 3: classify edges\n");

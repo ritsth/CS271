@@ -261,3 +261,84 @@ bool SparseGraph::isConnected ( void ){
     }
     return true;
 }
+
+//============================================================
+// ! DFS-based algorithms
+//============================================================
+void SparseGraph::DFS(void) {
+    info.resize(V);  
+    int time = 0;
+    for (int i = 0; i < V; i++) {
+        if (info[i].color == 'W') {
+            DFS_Visit(i, time);
+        }
+    }
+}
+
+
+void SparseGraph::DFS_Visit(int v, int &clock) {
+    clock++;
+    info[v].discoveryTime = clock;
+    info[v].color = 'G';
+    for (map<int, int>::const_iterator pair = adjList[v].begin(); pair != adjList[v].end(); ++pair) {
+        int i = pair->first;
+        if (info[i].color == 'W') {
+            info[i].pred = v;
+            DFS_Visit(i, clock);
+        }
+    }
+    clock++;
+    info[v].finishingTime = clock;
+    info[v].color = 'B';
+}
+
+
+void SparseGraph::printDFSTable(void) {
+    if (V <= 10) {
+        cout << "DFS Table for Source Node" << endl;
+        for (size_t i = 0; i < info.size(); i++) {
+            cout << "Vertex " << i << ": "
+                 << "Discovery: " << info[i].discoveryTime << ", "
+                 << "Finish: " << info[i].finishingTime << ", "
+                 << "Predecessor: " << (info[i].pred != -1 ? to_string(info[i].pred) : "NIL") << endl;
+        }
+    } else {
+        cout << "No DFS Table printed" << endl;
+    }
+}
+
+
+void SparseGraph::printTopologicalSort(void) {
+    vector<pair<int, int>> topSort;
+    for (size_t i = 0; i < info.size(); i++) {
+        topSort.push_back(make_pair(info[i].finishingTime, i));
+    }
+    sort(topSort.rbegin(), topSort.rend()); 
+    for (size_t i = 0; i < topSort.size(); i++) {
+        const pair<int, int>& vertex = topSort[i];
+        cout << "v" << vertex.second;
+        if (i < topSort.size() - 1)
+            cout << " > ";
+    }
+    cout << endl;
+}
+
+
+void SparseGraph::printDFSParenthesization(void) {
+    int v = 0;
+}
+
+
+void SparseGraph::classifyDFSEdges(void) {
+    for (int u = 0; u < V; u++) {
+        for (map<int, int>::const_iterator it = adjList[u].begin(); it != adjList[u].end(); ++it) {
+            int v = it->first;
+            if (info[u].discoveryTime < info[v].discoveryTime)
+                cout << "Edge (v" << u << ", v" << v << ") is a forward/tree edge" << endl;
+            else if (info[u].discoveryTime > info[v].discoveryTime && info[u].finishingTime > info[v].finishingTime)
+                cout << "Edge (v" << u << ", v" << v << ") is a cross edge" << endl;
+            else
+                cout << "Edge (v" << u << ", v" << v << ") is a back edge" << endl;
+        }
+    }
+}

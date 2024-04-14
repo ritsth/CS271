@@ -19,6 +19,7 @@ protected:
     int     V;      // Number of vertices
     int     E;      // Number of edges
 
+    // Helper structure for BFS
     struct Vertex {
         int pred;
         int dist;
@@ -27,7 +28,18 @@ protected:
         Vertex() : pred(-1),  dist(-1), color('W'){}
     };
 
-    vector<Vertex> adjVertex;
+    // Helper structure for DFS
+    struct VertexInfo {
+        char    color;          
+        int     pred;
+        int     discoveryTime;
+        int     finishingTime;
+
+        VertexInfo() : color('W'), pred(-1), discoveryTime(-1), finishingTime(-1) {}
+    };
+
+    vector<Vertex>      adjVertex;
+    vector<VertexInfo>  info;
 
 public:
     // Primary methods
@@ -41,25 +53,23 @@ public:
     virtual     void    insertEdge  ( int v1, int v2, int w ) = 0;
     virtual     bool    isEdge      ( int v1, int v2 ) const  = 0;
     virtual     int     getWeight   ( int v1, int v2 ) const  = 0;     
-    virtual     int     size   () const;     
+    virtual     int     size        ( void ) const;     
 
     // BFS based algorithms
-    virtual    void BFS ( int source ) = 0;
-    virtual    void printBFSTable ( int source ) = 0;
-    virtual    void printBFSPath ( int s, int d ) = 0;
-    virtual    void printMostDistant ( int s ) =0;
-    virtual    bool isConnected ( void ) =0;
+    virtual    void     BFS              ( int source ) = 0;
+    virtual    void     printBFSTable    ( int source ) = 0;
+    virtual    void     printBFSPath     ( int s, int d ) = 0;
+    virtual    void     printMostDistant ( int s ) =0;
+    virtual    bool     isConnected      ( void ) =0;
 
     // DFS based algorithms
-    // virtual    void DFS ( void );
-    // virtual    void DFS_Visit ( int v, int &clock );
-    // virtual    void printDFSTable ( void );
-    // virtual    void printTopologicalSort ( void );
-    // virtual    void printDFSParenthesization( void );
-    // virtual    void classifyDFSEdges ( void );
-    // virtual    void indexSort ( int a[] );
-
-
+    virtual    void     DFS                      ( void ) = 0; 
+    virtual    void     DFS_Visit                ( int v, int &clock ) = 0;
+    virtual    void     printDFSTable            ( void ) = 0;
+    virtual    void     printTopologicalSort     ( void ) = 0;
+    virtual    void     printDFSParenthesization ( void ) = 0;
+    virtual    void     classifyDFSEdges         ( void ) = 0;
+    // virtual    void     indexSort                ( int a[] ) = 0;
 
     // Friend functions for input and output operations
     friend istream & operator>>(istream& is, Graph& graph) {

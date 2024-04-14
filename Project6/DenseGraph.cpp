@@ -5,9 +5,10 @@
 // This file contains implementation of derived DenseGraph class.
 //===============================
 #include "DenseGraph.h"
+#include <iomanip>
+#include <queue>
 #include <vector>
 #include <stdexcept>
-#include <queue>
 using namespace std;
 
 //==============================================
@@ -249,4 +250,85 @@ bool DenseGraph::isConnected ( void ){
         }
     }
     return true;
+}
+
+//============================================================
+// ! DFS-based algorithms
+//============================================================
+void DenseGraph::DFS(void) {
+    info.resize(adjMatrix.size());
+    int time = 0;
+    for (int i = 0; i < adjMatrix.size(); i++) {
+        if (info[i].color == 'W') {
+            DFS_Visit(i, time);
+        }
+    }
+}
+
+
+void DenseGraph::DFS_Visit(int v, int &clock) {
+    clock++;
+    info[v].discoveryTime = clock;
+    info[v].color = 'G';
+    for (int i = 0; i < adjMatrix[v].size(); i++) {
+        if (adjMatrix[v][i] != -1 && info[i].color == 'W') {
+            info[i].pred = v;
+            DFS_Visit(i, clock);
+        }
+    }
+    clock++;
+    info[v].finishingTime = clock;
+    info[v].color = 'B';
+}
+
+
+void DenseGraph::printDFSTable(void) {
+    if (V <= 10) {
+        cout << "DFS Table for Source Node" << endl;
+        for (int i = 0; i < info.size(); i++) {
+            cout << "Vertex " << i << ": "
+                 << "Discovery: " << info[i].discoveryTime << ", "
+                 << "Finish: " << info[i].finishingTime << ", "
+                 << "Predecessor: " << (info[i].pred != -1 ? to_string(info[i].pred) : "NIL") << endl;
+        }
+    } else {
+        cout << "No DFS Table printed " << endl;
+    }
+}
+
+
+void DenseGraph::printTopologicalSort(void) {
+    vector<pair<int, int>> topSort;
+    for (int i = 0; i < info.size(); i++) {
+        topSort.push_back(make_pair(info[i].finishingTime, i));
+    }
+    sort(topSort.rbegin(), topSort.rend());  
+    for (int i = 0; i < topSort.size(); i++) {
+        const pair<int, int>& vertex = topSort[i];
+        cout << "v" << vertex.second;
+        if (i < topSort.size() - 1)
+            cout << " > ";
+    }
+    cout << endl;
+}
+
+
+void DenseGraph::printDFSParenthesization(void) {
+    int v = 0;
+}
+
+
+void DenseGraph::classifyDFSEdges(void) {
+    for (int u = 0; u < adjMatrix.size(); u++) {
+            for (int v = 0; v < adjMatrix[u].size(); v++) {
+                if (adjMatrix[u][v] != -1) {  
+                    if (info[u].discoveryTime < info[v].discoveryTime)
+                        cout << "Edge (v" << u << ", v" << v << ") is a forward/tree edge" << endl;
+                    else if (info[u].discoveryTime > info[v].discoveryTime && info[u].finishingTime > info[v].finishingTime)
+                        cout << "Edge (v" << u << ", v" << v << ") is a cross edge" << endl;
+                    else
+                        cout << "Edge (v" << u << ", v" << v << ") is a back edge" << endl;
+            }
+        }
+    }
 }
