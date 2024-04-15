@@ -19,10 +19,10 @@ int main ( void )
    int nv, ne;
    cin >> nv >> ne;
    //gp = new Graph(nv,ne);            // B level
-   // gp = new DenseGraph(nv,ne);        // A level
-   gp = new SparseGraph(nv,ne);        // A level
+   gp = new DenseGraph(nv,ne);         // A level
+   // gp = new SparseGraph(nv,ne);        // A level
    cin >> (*gp);
-   cout << (*gp);
+   // cout << (*gp);
 
    //----------------------------------------------
    // Part 1: Complete BFS with node 0 as source
@@ -31,7 +31,7 @@ int main ( void )
    int source = 0;   // source vertex
    gp->BFS(source);
 
-   if ( gp->size() <= 10 )
+   if (gp->size() <= 10)
       gp->printBFSTable(source);   // for debugging purposes, not required
    else
       printf("No BFS Table printed\n");

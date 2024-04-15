@@ -31,19 +31,6 @@ public:
     bool        isEdge      ( int v1, int v2 ) const;                 // Check if there is an edge
     int         getWeight   ( int v1, int v2 ) const;                 // Return the weight of an edge
 
-    // BFS based algorithms
-    void        BFS              ( int source );
-    void        printBFSTable    ( int source );
-    void        printBFSPath     ( int s, int d );
-    void        printMostDistant ( int s );
-    bool        isConnected      ( void );
-
-    // DFS based algorithm
-    void        DFS                      ( void ); 
-    void        DFS_Visit                ( int v, int &clock );
-    void        printDFSParenthesization ( void );
-    void        classifyDFSEdges         ( void );
-    
 };
 
 #endif  // SPARSEGRAPH_H

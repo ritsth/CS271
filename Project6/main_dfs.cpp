@@ -28,12 +28,12 @@ int main ( void )
    printf("\n\n");
    printf("Part 1: Depth First Search\n");
    gp->DFS();
-   if ( gp->size() <= 10 )
+   if (gp->size() <= 10)
       gp->printDFSTable();
 
-   //gp->printBFSTable(0);   // for debugging purposes
-   //printf("Most distant vertices from source v%d are: \n",0);
-   //gp->printMostDistant(0);
+   // gp->printBFSTable(0);   // for debugging purposes
+   // printf("Most distant vertices from source v%d are: \n",0);
+   // gp->printMostDistant(0);
 
    // Part 2: Print parenthesization
    printf("\n\n");
@@ -43,7 +43,7 @@ int main ( void )
    printf("\n");
 
    // Part 3: Print path from vertex 0 to vertex numV-1
-   printf("\n\nPart 3: classify edges\n");
+   printf("\n\nPart 3: Classify edges\n");
    gp->classifyDFSEdges();
 
    // Part 4: Create a topological sort from DFS table

@@ -38,39 +38,40 @@ protected:
         VertexInfo() : color('W'), pred(-1), discoveryTime(-1), finishingTime(-1) {}
     };
 
+    // Table for BFS Algorithm 
     vector<Vertex>      adjVertex;
-    vector<VertexInfo>  info;
 
-                void     indexSort  ( int a[] );
+    // Table for DFS Algorithm
+    vector<VertexInfo>  info;
 
 public:
     // Primary methods
-                        Graph       ( void );
-                        Graph       ( int vertices, int edges );
-                        Graph       ( const Graph& other );
-    virtual             ~Graph      ( void );        
-    virtual     Graph&  operator=   ( const Graph& other );
+                        Graph                    ( void );
+                        Graph                    ( int vertices, int edges );
+                        Graph                    ( const Graph& other );
+    virtual             ~Graph                   ( void );        
+    virtual     Graph&  operator=                ( const Graph& other );
 
     // Virtual method to be override by derived classes           
-    virtual     void    insertEdge  ( int v1, int v2, int w ) = 0;
-    virtual     bool    isEdge      ( int v1, int v2 ) const  = 0;
-    virtual     int     getWeight   ( int v1, int v2 ) const  = 0;     
-    virtual     int     size        ( void ) const;     
+    virtual     void    insertEdge               ( int v1, int v2, int w ) = 0;
+    virtual     bool    isEdge                   ( int v1, int v2 ) const  = 0;
+    virtual     int     getWeight                ( int v1, int v2 ) const  = 0;     
+                int     size                     ( void ) const;     
 
     // BFS based algorithms
-    virtual    void     BFS              ( int source ) = 0;
-    virtual    void     printBFSTable    ( int source ) = 0;
-    virtual    void     printBFSPath     ( int s, int d ) = 0;
-    virtual    void     printMostDistant ( int s ) =0;
-    virtual    bool     isConnected      ( void ) =0;
+               void     BFS                      ( int source );
+               void     printBFSTable            ( int source );
+               void     printBFSPath             ( int s, int d );
+               void     printMostDistant         ( int s );
+               bool     isConnected              ( void );
 
     // DFS based algorithms
-    virtual    void     DFS                      ( void ) = 0; 
-    virtual    void     DFS_Visit                ( int v, int &clock ) = 0;
+               void     DFS                      ( void ); 
+               void     DFS_Visit                ( int v, int &clock );
                void     printDFSTable            ( void );
                void     printTopologicalSort     ( void );
-    virtual    void     printDFSParenthesization ( void ) = 0;
-    virtual    void     classifyDFSEdges         ( void ) = 0;
+               void     printDFSParenthesization ( void );
+               void     classifyDFSEdges         ( void );
 
     // Friend functions for input and output operations
     friend istream & operator>>(istream& is, Graph& graph) {
