@@ -73,6 +73,9 @@ public:
                void     printDFSParenthesization ( void );
                void     classifyDFSEdges         ( void );
 
+    //Prim
+    virtual Graph& MST_Prim() = 0;
+
     // Friend functions for input and output operations
     friend istream & operator>>(istream& is, Graph& graph) {
         int v1, v2, weight;
