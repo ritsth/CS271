@@ -29,10 +29,12 @@ public:
     void        insertEdge  ( int v1, int v2, int w );      // Insert a new edge to a graph, override if already existed
     bool        isEdge      ( int v1, int v2 ) const;       // Check if there is an edge
     int         getWeight   ( int v1, int v2 ) const;       // Return the weight of an edge
+    
 
     //Prim 
-    Graph& MST_Prim();
-
+    Graph* MST_Prim();
+    int mass();
+    void delEdge(int v1, int v2);
 };
 
 #endif  // DENSEGRAPH_H

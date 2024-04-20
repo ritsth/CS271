@@ -512,3 +512,8 @@ void Graph::classifyDFSEdges(void) {
         }
     }
 }
+
+// int Graph::mass() const{
+//     MST_Prim();
+//     return total_mass;
+// }

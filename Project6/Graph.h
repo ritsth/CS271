@@ -13,11 +13,31 @@ using namespace std;
 
 #define DEFAULT_VERTICES_NUM  10
 
+
 class Graph
 {
 protected:
     int     V;      // Number of vertices
     int     E;      // Number of edges
+
+    int total_mass; //mass for the prim's and Kruskal’s MST algorithm 
+
+    //Struct for the edges
+    struct Edge {
+        int u; 
+        int v; 
+        int weight;
+
+        Edge() :u(-1),  v(-1), weight(-1){}
+
+    };
+
+    // Comparison function for the priority queue
+    struct CompareWeight {
+        bool operator()(const Edge& e1, const Edge& e2) {
+            return e1.weight > e2.weight;
+        }
+    };
 
     // Helper structure for BFS
     struct Vertex {
@@ -74,7 +94,9 @@ public:
                void     classifyDFSEdges         ( void );
 
     //Prim
-    virtual Graph& MST_Prim() = 0;
+    virtual Graph* MST_Prim() = 0;
+    virtual int mass() = 0;
+    virtual     void    delEdge ( int v1, int v2 ) = 0;
 
     // Friend functions for input and output operations
     friend istream & operator>>(istream& is, Graph& graph) {

@@ -9,6 +9,7 @@
 #include <queue>
 #include <functional>
 #include <vector>
+#include <set>
 #include <stdexcept>
 using namespace std;
 
@@ -138,9 +139,75 @@ void DenseGraph::insertEdge(int v1, int v2, int w = 1) {
     if (v1 < 0 || v1 >= V || v2 < 0 || v2 >= V || w < 0) 
         throw std::invalid_argument("Invalid edge parameters.");
     // If there is not yet an edge from v1 to v2, increase the number of edges by 1
-    if (adjMatrix[v1][v2] == -1) 
+    if (adjMatrix[v1][v2]  == -1) 
         E++;
     // Set the weight of the new edge to w, if there is already an edge there, overwrite the value
-    adjMatrix[v1][v2] = adjMatrix[v2][v1] = w;
+    adjMatrix[v1][v2] =w;
+    adjMatrix[v2][v1] = w;
 }
 #endif
+
+void DenseGraph::delEdge(int v1, int v2){
+    adjMatrix[v2][v1] = -1;
+}
+
+Graph* DenseGraph::MST_Prim() {
+    Graph *M= new DenseGraph(V,0);
+
+    int start_vertex=0;
+
+    priority_queue<Edge,vector<Edge>, CompareWeight> Q;
+
+    set <int> Inset={start_vertex};
+    set <int> Outset;
+
+    for (int i=start_vertex+1;i<V;i++){
+        Outset.insert(i);
+    }
+
+
+    for (int i=0;i<V;i++){
+        if(isEdge(start_vertex,i)){
+            Edge obj;
+            obj.u=start_vertex;
+            obj.v=i;
+            obj.weight=adjMatrix[start_vertex][i];
+            Q.push(obj);
+        }
+    }
+
+    while(!Outset.empty() && !Q.empty()){
+        Edge obj2 = Q.top();
+        Q.pop();
+
+        if(Inset.count(obj2.u) && Outset.count(obj2.v) 
+            || Inset.count(obj2.v) && Outset.count(obj2.u) 
+        ){
+            
+            M->insertEdge(obj2.u,obj2.v,obj2.weight);
+            //Removing extra edge from v -> u
+            M->delEdge(obj2.u,obj2.v);
+            total_mass += obj2.weight;
+            
+            for(int i=0; i<V;i++){
+                if(isEdge(obj2.v,i)){
+                    Edge temp;
+                    temp.u=obj2.v;
+                    temp.v=i;
+                    temp.weight=adjMatrix[obj2.v][i];
+                    Q.push(temp);
+                } 
+            }
+
+            Inset.insert(obj2.v);
+            Outset.erase(obj2.v);
+        }
+
+    }
+    return M;
+}
+
+int DenseGraph::mass(){
+    MST_Prim();
+    return total_mass;
+}

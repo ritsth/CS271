@@ -75,6 +75,9 @@
         "fstream": "cpp",
         "cinttypes": "cpp",
         "__tree": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "condition_variable": "cpp",
+        "set": "cpp",
+        "thread": "cpp"
     }
 }

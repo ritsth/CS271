@@ -9,6 +9,7 @@
 #include <vector>
 #include <stdexcept>
 #include <queue>
+#include <set>
 #include <functional>
 using namespace std;
 
@@ -156,3 +157,68 @@ void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
     }
 }
 #endif
+
+void SparseGraph::delEdge(int v1, int v2){
+    adjList[v2].erase(adjList[v2].find(v1));
+}
+
+Graph* SparseGraph::MST_Prim() {
+    Graph *M= new SparseGraph(V,0);
+
+    int start_vertex=0;
+
+    priority_queue<Edge,vector<Edge>, CompareWeight> Q;
+
+    set <int> Inset={start_vertex};
+    set <int> Outset;
+
+    for (int i=start_vertex+1;i<V;i++){
+        Outset.insert(i);
+    }
+
+
+    for (int i=0;i<V;i++){
+        if(isEdge(start_vertex,i)){
+            Edge obj;
+            obj.u=start_vertex;
+            obj.v=i;
+            obj.weight=adjList[start_vertex].find(i)->second;
+            Q.push(obj);
+        }
+    }
+
+
+    while(!Outset.empty() && !Q.empty()){
+        Edge obj2 = Q.top();
+        Q.pop();
+
+        if(Inset.count(obj2.u) && Outset.count(obj2.v) 
+            || Inset.count(obj2.v) && Outset.count(obj2.u) 
+        ){
+            
+            M->insertEdge(obj2.u,obj2.v,obj2.weight);
+            M->delEdge(obj2.u,obj2.v);
+            total_mass += obj2.weight;
+            
+            for(int i=0; i<V;i++){
+                if(isEdge(obj2.v,i)){
+                    Edge temp;
+                    temp.u=obj2.v;
+                    temp.v=i;
+                    temp.weight=adjList[obj2.v].find(i)->second;
+                    Q.push(temp);
+                } 
+            }
+
+            Inset.insert(obj2.v);
+            Outset.erase(obj2.v);
+        }
+
+    }
+    return M;
+}
+
+int SparseGraph::mass(){
+    MST_Prim();
+    return total_mass;
+}
