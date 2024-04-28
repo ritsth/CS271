@@ -150,14 +150,27 @@ void DenseGraph::insertEdge(int v1, int v2, int w = 1) {
 
 
 
-
+//==============================================
+// delEdge(int v1, int v2)
+// Deletes an edge from the graph (really just
+// sets it to sentinel value of -1)
+// INPUT: 
+// int v1, int v2: distinct vertices in the graph
+// RETURN: void
+//==============================================
 void DenseGraph::delEdge(int v1, int v2){
     adjMatrix[v2][v1] = -1;
 }
 
 
 
-
+//==============================================
+// MST_Prim(void)
+// implements Prim's algorithm to create an MST
+// for a given undirected graph
+// INPUT: void
+// RETURN: void
+//==============================================
 Graph* DenseGraph::MST_Prim(void) {
     // Create a new graph M to hold the MST, initially with no edges
     Graph *M = new DenseGraph(V, 0);
@@ -225,7 +238,13 @@ Graph* DenseGraph::MST_Prim(void) {
 }
 
 
-
+//==============================================
+// MST_Kruskal(void)
+// implements Kruskal's algorithm to create an MST
+// for a given undirected graph
+// INPUT: void
+// RETURN: void
+//==============================================
 Graph* DenseGraph::MST_Kruskal() {
     // Create a new DenseGraph to represent the MST
     Graph* mst = new DenseGraph(V, 0);

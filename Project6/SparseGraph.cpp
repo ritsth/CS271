@@ -159,13 +159,25 @@ void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
 #endif
 
 
-
+//==============================================
+// delEdge(int v1, int v2)
+// Deletes an edge from the graph
+// INPUT: 
+// int v1, int v2: distinct vertices in the graph
+// RETURN: void
+//==============================================
 void SparseGraph::delEdge(int v1, int v2){
     adjList[v2].erase(adjList[v2].find(v1));
 }
 
 
-
+//==============================================
+// MST_Prim(void)
+// implements Prim's algorithm to create an MST
+// for a given undirected graph
+// INPUT: void
+// RETURN: void
+//==============================================
 Graph* SparseGraph::MST_Prim(void) {
     // Create a new graph M to hold the MST, initially with no edges
     Graph* M = new SparseGraph(V,0);
@@ -234,7 +246,13 @@ Graph* SparseGraph::MST_Prim(void) {
 }
 
 
-
+//==============================================
+// MST_Kruskal(void)
+// implements Kruskal's algorithm to create an MST
+// for a given undirected graph
+// INPUT: void
+// RETURN: void
+//==============================================
 Graph* SparseGraph::MST_Kruskal(void) {
     // Create a new DenseGraph to represent the MST
     Graph* mst = new SparseGraph(V, 0);
