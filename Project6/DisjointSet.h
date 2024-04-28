@@ -1,3 +1,12 @@
+//================================================================
+// Ritika, Max, Uyen
+// April 2024
+// DisjointSet.h
+// This file contains the declarations for functions in the 
+// DisjointSet class. We need disjoint sets to perform Kruskal's
+// algorithm
+//================================================================
+
 #include <iostream>
 #include <stdexcept>
 #include <unordered_map>

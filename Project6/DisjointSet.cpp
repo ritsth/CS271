@@ -1,8 +1,25 @@
+//================================================================
+// Ritika, Max, Uyen
+// April 2024
+// DisjointSet.cpp
+// This file contains the implementation for the DisjointSet class
+// which we need to perform Kruskal's algorithm.
+//================================================================
+
 #include "DisjointSet.h"
 #include <iostream>
 #include <stdexcept>
 #include <unordered_map>
 
+
+//==============================================
+// makeSet(const T& element)
+// creates a new set with a specified elt
+// INPUT: 
+// const T& element: a reference parameter to 
+// the element we want in the set
+// RETURN: none
+//==============================================
 template <class T>
 void DisjointSet<T>::makeSet(const T& element) {
     // Check if the element already exists in the disjoint set
@@ -13,6 +30,16 @@ void DisjointSet<T>::makeSet(const T& element) {
     elements[element] = {element, 0};
 }
 
+//==============================================
+// findSet(const T& element)
+// this functions identifies the representative
+// elt (root) for the set that our specified elt is stored in
+// INPUT: 
+// const T& element: a reference parameter to 
+// the element we want to find the set 
+// representative of
+// RETURN: the representative elt (the root) of the set
+//==============================================
 template <class T>
 T DisjointSet<T>::findSet(const T& element) {
     // Check if the element exists in the map, throw exception if it does not
@@ -26,6 +53,15 @@ T DisjointSet<T>::findSet(const T& element) {
     return elements[element].parent;
 }
 
+//==============================================
+// unionSets(const T& a, const T& b)
+// creates the union of two sets
+// INPUT: 
+// const T& a, b: reference parameters to a
+// elements in two different sets that we want 
+// to take the union of
+// RETURN: none
+//==============================================
 template <class T>
 void DisjointSet<T>::unionSets(const T& a, const T& b) {
     // Check if either element is not found in the set, throw exception if true
