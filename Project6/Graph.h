@@ -4,6 +4,7 @@
 // Date: 23 Feb 2024
 // This file contains declaration of Graph class.
 //===============================
+#include "DisjointSet.h"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -17,19 +18,17 @@ using namespace std;
 class Graph
 {
 protected:
-    int     V;      // Number of vertices
-    int     E;      // Number of edges
+    int     V;          // Number of vertices
+    int     E;          // Number of edges
 
-    int total_mass; //mass for the prim's and Kruskal’s MST algorithm 
-
-    //Struct for the edges
+    // Struct for the edges
     struct Edge {
-        int u; 
-        int v; 
-        int weight;
+        int     u; 
+        int     v; 
+        int     weight;
 
-        Edge() :u(-1),  v(-1), weight(-1){}
-
+        Edge() : u(-1),  v(-1), weight(-1) {}
+        Edge(int s, int d, int w) : u(s), v(d), weight(w) {}
     };
 
     // Comparison function for the priority queue
@@ -41,11 +40,11 @@ protected:
 
     // Helper structure for BFS
     struct Vertex {
-        int pred;
-        int dist;
-        char color;
+        int     pred;
+        int     dist;
+        char    color;
 
-        Vertex() : pred(-1),  dist(-1), color('W'){}
+        Vertex() : pred(-1),  dist(-1), color('W') {}
     };
 
     // Helper structure for DFS
@@ -63,7 +62,7 @@ protected:
 
     // Table for DFS Algorithm
     vector<VertexInfo>  info;
-
+    
 public:
     // Primary methods
                         Graph                    ( void );
@@ -93,10 +92,13 @@ public:
                void     printDFSParenthesization ( void );
                void     classifyDFSEdges         ( void );
 
-    //Prim
-    virtual Graph* MST_Prim() = 0;
-    virtual int mass() = 0;
-    virtual     void    delEdge ( int v1, int v2 ) = 0;
+    // MST algorithm
+    virtual    Graph*   MST_Prim                 ( void ) = 0;
+    virtual    Graph*   MST_Kruskal              ( void ) = 0;
+               int      mass                     ( void ) const;
+
+    // Helper function for MST Prim Algorithm
+    virtual     void    delEdge                  ( int v1, int v2 ) = 0;
 
     // Friend functions for input and output operations
     friend istream & operator>>(istream& is, Graph& graph) {

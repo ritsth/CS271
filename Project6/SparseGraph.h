@@ -31,11 +31,12 @@ public:
     bool        isEdge      ( int v1, int v2 ) const;                 // Check if there is an edge
     int         getWeight   ( int v1, int v2 ) const;                 // Return the weight of an edge
 
-    //Prim 
-    Graph* MST_Prim();
-    int mass();
-    void delEdge(int v1, int v2);
+    // MST algorithm 
+    Graph*      MST_Prim    ( void );                                 // Return a MST using Prim algorithm
+    Graph*      MST_Kruskal ( void );                                 // Return a MST using Kruskal algorithm
 
+    // Helper function for MST Prim Algorithm
+    void        delEdge     ( int v1, int v2 );
 };
 
 #endif  // SPARSEGRAPH_H

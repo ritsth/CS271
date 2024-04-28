@@ -513,7 +513,25 @@ void Graph::classifyDFSEdges(void) {
     }
 }
 
-// int Graph::mass() const{
-//     MST_Prim();
-//     return total_mass;
-// }
+
+//==============================================
+// mass(void)
+// This function returns the mass for the MST algorithm
+// INPUT: none
+// RETURN: an integer
+//==============================================
+int Graph::mass() const {
+    // Create a new variable to hold the total mass of the edges of the MST
+    int total_mass = 0;
+
+    // Iterate through each vertex 'u'
+    for (int u = 0; u < V; u++) {
+        // Check for edges from 'u' to every other vertex 'v'
+        for (int v = 0; v < V; v++) { 
+            if (isEdge(u, v)) {
+                total_mass = total_mass + getWeight(u, v);
+            }
+        }
+    }
+    return total_mass;
+}
