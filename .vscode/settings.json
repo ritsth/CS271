@@ -78,6 +78,8 @@
         "queue": "cpp",
         "condition_variable": "cpp",
         "set": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "list": "cpp",
+        "stack": "cpp"
     }
 }

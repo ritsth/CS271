@@ -158,67 +158,129 @@ void SparseGraph::insertEdge(int v1, int v2, int w = 1) {
 }
 #endif
 
+
+
 void SparseGraph::delEdge(int v1, int v2){
     adjList[v2].erase(adjList[v2].find(v1));
 }
 
-Graph* SparseGraph::MST_Prim() {
-    Graph *M= new SparseGraph(V,0);
 
+
+Graph* SparseGraph::MST_Prim(void) {
+    // Create a new graph M to hold the MST, initially with no edges
+    Graph* M = new SparseGraph(V,0);
+
+    // Start the MST from vertex 0
     int start_vertex=0;
 
+    // Priority queue to store edges based on their weights in increasing order
     priority_queue<Edge,vector<Edge>, CompareWeight> Q;
 
-    set <int> Inset={start_vertex};
+    // Set of vertices included in the MST
+    set <int> Inset = {start_vertex};
+
+    // Set of vertices not yet included in the MST
     set <int> Outset;
 
-    for (int i=start_vertex+1;i<V;i++){
+    // Initialize the Outset with all other vertices
+    for (int i = start_vertex + 1; i < V; i++) {
         Outset.insert(i);
     }
 
-
-    for (int i=0;i<V;i++){
-        if(isEdge(start_vertex,i)){
+    // Add all edges starting from the start_vertex to the priority queue
+    for (int i = 0; i < V; i++) {
+        if (isEdge(start_vertex, i)) {
             Edge obj;
-            obj.u=start_vertex;
-            obj.v=i;
-            obj.weight=adjList[start_vertex].find(i)->second;
+            obj.u = start_vertex;
+            obj.v = i;
+            obj.weight = adjList[start_vertex].find(i)->second;
             Q.push(obj);
         }
     }
 
-
-    while(!Outset.empty() && !Q.empty()){
+    // While there are still vertices to be included in the MST
+    while(!Outset.empty() && !Q.empty()) {
+        // Get the smallest edge from the priority queue
         Edge obj2 = Q.top();
         Q.pop();
 
-        if(Inset.count(obj2.u) && Outset.count(obj2.v) 
-            || Inset.count(obj2.v) && Outset.count(obj2.u) 
-        ){
-            
+        // Check if this edge connects a vertex in the MST to one outside the MST
+        if(Inset.count(obj2.u) && Outset.count(obj2.v) || Inset.count(obj2.v) && Outset.count(obj2.u)) {
+            // Add this edge to the MST
             M->insertEdge(obj2.u,obj2.v,obj2.weight);
+
+            // Removes extra edge from v -> u in case it's an undirected graph and duplicate edges were inserted
             M->delEdge(obj2.u,obj2.v);
-            total_mass += obj2.weight;
             
-            for(int i=0; i<V;i++){
-                if(isEdge(obj2.v,i)){
+            // Add new edges from the newly added vertex to the queue
+            for (int i = 0; i < V; i++) {
+                if (isEdge(obj2.v,i)) {
                     Edge temp;
-                    temp.u=obj2.v;
-                    temp.v=i;
-                    temp.weight=adjList[obj2.v].find(i)->second;
+                    temp.u = obj2.v;
+                    temp.v = i;
+                    temp.weight = adjList[obj2.v].find(i)->second;
                     Q.push(temp);
                 } 
             }
 
+            // Move the vertex from the Outset to the Inset
             Inset.insert(obj2.v);
             Outset.erase(obj2.v);
         }
 
     }
+    // Return the MST graph
     return M;
 }
 
-int SparseGraph::mass(){
-    MST_Prim();
-    return total_mass;
+
+
+Graph* SparseGraph::MST_Kruskal(void) {
+    // Create a new DenseGraph to represent the MST
+    Graph* mst = new SparseGraph(V, 0);
+
+    // Priority queue to store edges
+    priority_queue<Edge,vector<Edge>, CompareWeight> Q;
+
+    // Add each edge to the priority queue
+    for (int i = 0; i < adjList.size(); ++i) {
+        for (const pair<int, int>& edge : adjList[i]) {
+            Q.push(Edge(i, edge.first, edge.second));
+        }
+    }
+
+    // Disjoint set to track connected components
+    DisjointSet<int> S;
+
+    // Counter for number of edges added to MST
+    int count = 0;
+
+    // Initialize the disjoint set with individual elements
+    for (int i = 0; i < adjList.size(); ++i) {
+        S.makeSet(i);
+    }
+
+    // Continue until MST has V-1 edges or priority queue is empty
+    while (!Q.empty() && count < adjList.size() - 1) {
+        // Get the smallest edge from the priority queue
+        Edge e = Q.top();
+        Q.pop();
+
+        // Check if adding this edge forms a cycle
+        if (S.findSet(e.u) != S.findSet(e.v)) {
+            // Add edge to MST
+            mst->insertEdge(e.u, e.v, e.weight);
+
+            // Removes extra edge from v -> u in case it's an undirected graph and duplicate edges were inserted
+            mst->delEdge(e.u, e.v);
+
+            // Merge the sets
+            S.unionSets(e.u, e.v);
+
+            // Increment edge count
+            count++;
+        }
+    }
+    // Return the MST graph
+    return mst;
 }
