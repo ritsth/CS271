@@ -205,7 +205,7 @@ Graph* SparseGraph::MST_Prim(void) {
             Edge obj;
             obj.u = start_vertex;
             obj.v = i;
-            obj.weight = adjList[start_vertex].find(i)->second; //use get weight
+            obj.weight = getWeight(start_vertex,i);
             Q.push(obj);
         }
     }
@@ -240,9 +240,9 @@ Graph* SparseGraph::MST_Prim(void) {
             Outset.erase(obj2.v);
         }
         else if ( Inset.count(obj2.v) && Outset.count(obj2.u) ){
+
             M->insertEdge(obj2.v,obj2.u,obj2.weight);
             M->delEdge(obj2.v,obj2.u);
-
             
             for(int i=0; i<V;i++){
                 if(isEdge(obj2.u,i)){

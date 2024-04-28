@@ -210,7 +210,7 @@ Graph* DenseGraph::MST_Prim(void) {
         Q.pop();
 
         // Check if this edge connects a vertex in the MST to one outside the MST
-        if ((Inset.count(obj2.u) && Outset.count(obj2.v)) || (Inset.count(obj2.v) && Outset.count(obj2.u))) {
+        if ((Inset.count(obj2.u) && Outset.count(obj2.v))) {
             // Add this edge to the MST
             M->insertEdge(obj2.u, obj2.v, obj2.weight);
 
@@ -233,6 +233,7 @@ Graph* DenseGraph::MST_Prim(void) {
             Outset.erase(obj2.v);
         }
         else if ( Inset.count(obj2.v) && Outset.count(obj2.u) ){
+
             M->insertEdge(obj2.v,obj2.u,obj2.weight);
             M->delEdge(obj2.v,obj2.u);
             
