@@ -171,7 +171,7 @@ Graph* DenseGraph::MST_Prim() {
             Edge obj;
             obj.u=start_vertex;
             obj.v=i;
-            obj.weight=adjMatrix[start_vertex][i];
+            obj.weight=getWeight(start_vertex,i);
             Q.push(obj);
         }
     }
@@ -180,12 +180,9 @@ Graph* DenseGraph::MST_Prim() {
         Edge obj2 = Q.top();
         Q.pop();
 
-        if(Inset.count(obj2.u) && Outset.count(obj2.v) 
-            || Inset.count(obj2.v) && Outset.count(obj2.u) 
-        ){
+        if(Inset.count(obj2.u) && Outset.count(obj2.v) ){
             
             M->insertEdge(obj2.u,obj2.v,obj2.weight);
-            //Removing extra edge from v -> u
             M->delEdge(obj2.u,obj2.v);
             total_mass += obj2.weight;
             
@@ -194,13 +191,31 @@ Graph* DenseGraph::MST_Prim() {
                     Edge temp;
                     temp.u=obj2.v;
                     temp.v=i;
-                    temp.weight=adjMatrix[obj2.v][i];
+                    temp.weight=getWeight(obj2.v,i);
                     Q.push(temp);
                 } 
             }
 
             Inset.insert(obj2.v);
             Outset.erase(obj2.v);
+        }
+        else if ( Inset.count(obj2.v) && Outset.count(obj2.u) ){
+            M->insertEdge(obj2.v,obj2.u,obj2.weight);
+            M->delEdge(obj2.v,obj2.u);
+            total_mass += obj2.weight;
+            
+            for(int i=0; i<V;i++){
+                if(isEdge(obj2.u,i)){
+                    Edge temp;
+                    temp.v=obj2.u;
+                    temp.u=i;
+                    temp.weight=getWeight(obj2.u,i);
+                    Q.push(temp);
+                } 
+            }
+
+            Inset.insert(obj2.u);
+            Outset.erase(obj2.u);
         }
 
     }

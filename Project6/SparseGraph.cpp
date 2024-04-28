@@ -182,7 +182,7 @@ Graph* SparseGraph::MST_Prim() {
             Edge obj;
             obj.u=start_vertex;
             obj.v=i;
-            obj.weight=adjList[start_vertex].find(i)->second;
+            obj.weight=adjList[start_vertex].find(i)->second; //use get weight
             Q.push(obj);
         }
     }
@@ -193,7 +193,6 @@ Graph* SparseGraph::MST_Prim() {
         Q.pop();
 
         if(Inset.count(obj2.u) && Outset.count(obj2.v) 
-            || Inset.count(obj2.v) && Outset.count(obj2.u) 
         ){
             
             M->insertEdge(obj2.u,obj2.v,obj2.weight);
@@ -205,13 +204,31 @@ Graph* SparseGraph::MST_Prim() {
                     Edge temp;
                     temp.u=obj2.v;
                     temp.v=i;
-                    temp.weight=adjList[obj2.v].find(i)->second;
+                    temp.weight=getWeight(obj2.v,i); 
                     Q.push(temp);
                 } 
             }
 
             Inset.insert(obj2.v);
             Outset.erase(obj2.v);
+        }
+        else if ( Inset.count(obj2.v) && Outset.count(obj2.u) ){
+            M->insertEdge(obj2.v,obj2.u,obj2.weight);
+            M->delEdge(obj2.v,obj2.u);
+            total_mass += obj2.weight;
+            
+            for(int i=0; i<V;i++){
+                if(isEdge(obj2.u,i)){
+                    Edge temp;
+                    temp.v=obj2.u;
+                    temp.u=i;
+                    temp.weight=getWeight(obj2.u,i);
+                    Q.push(temp);
+                } 
+            }
+
+            Inset.insert(obj2.u);
+            Outset.erase(obj2.u);
         }
 
     }
