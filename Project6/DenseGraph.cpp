@@ -235,7 +235,6 @@ Graph* DenseGraph::MST_Prim(void) {
         else if ( Inset.count(obj2.v) && Outset.count(obj2.u) ){
             M->insertEdge(obj2.v,obj2.u,obj2.weight);
             M->delEdge(obj2.v,obj2.u);
-            total_mass += obj2.weight;
             
             for(int i=0; i<V;i++){
                 if(isEdge(obj2.u,i)){
